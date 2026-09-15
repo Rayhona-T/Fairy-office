@@ -1,0 +1,56 @@
+[
+  {
+    "id": "sight-earth",
+    "name": "Planet Earth (The Blue Pearl)",
+    "category": "Home of Wanderers",
+    "visual": "🌍",
+    "description": "Swirling clouds over the Atlantic. You can see clusters of gold light where millions of people are currently falling asleep or making midnight tea.",
+    "quote": "“Look at them down there, huddled around their little fires and lamp posts.”",
+    "rarity": "Common"
+  },
+  {
+    "id": "sight-saturn",
+    "name": "Saturn & Its Golden Rings",
+    "category": "Solar Neighbor",
+    "visual": "🪐",
+    "description": "Tilted rings made of trillions of tiny ice pebbles spinning in calm, solemn circles.",
+    "quote": "“Saturn always looks dressed for a ball nobody else was invited to.”",
+    "rarity": "Common"
+  },
+  {
+    "id": "sight-pleiades",
+    "name": "The Seven Sisters (Pleiades)",
+    "category": "Star Cluster",
+    "visual": "✨",
+    "description": "A dazzling cluster enveloped in ghostly blue nebulosity, shivering like jewels held in a palm.",
+    "quote": "“They whisper to each other across four hundred light years without raising their voices.”",
+    "rarity": "Uncommon"
+  },
+  {
+    "id": "sight-voyager",
+    "name": "A Lost Tin Satellite (Voyager)",
+    "category": "Human Artifact",
+    "visual": "🛰️",
+    "description": "A tiny brass and gold-plated craft drifting quietly into the void, carrying a phonograph record of laughter and river songs.",
+    "quote": "“A hello sent into the dark that will outlast every empire.”",
+    "rarity": "Rare"
+  },
+  {
+    "id": "sight-paper-plane",
+    "name": "The Impossible Paper Crane",
+    "category": "Celestial Anomaly",
+    "visual": "🕊️",
+    "description": "A small origami crane folded from ledger paper, gliding serenely through the zero-gravity vacuum with stardust on its wings.",
+    "quote": "“Folded by someone whose wish was too light for gravity to hold down.”",
+    "rarity": "Very Rare"
+  },
+  {
+    "id": "sight-aurora",
+    "name": "Northern Aurora Borealis",
+    "category": "Atmospheric Veil",
+    "visual": "🌌",
+    "description": "Emerald and violet ribbons dancing along the magnetic rim of the northern pole like sheer curtains in a slow draft.",
+    "quote": "“Earth's breath caught in the solar wind.”",
+    "rarity": "Uncommon"
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "recipient-moon",
+    "name": "The Lady in the Moon",
+    "address": "Crescent Bower, The Sea of Tranquility",
+    "avatar": "🌙",
+    "description": "Prefers letters written on thin parchment that can catch starlight.",
+    "stampType": "silver-crescent",
+    "deliveryMethod": "Starbeam Express"
+  },
+  {
+    "id": "recipient-willow",
+    "name": "The Old Whispering Willow",
+    "address": "Bent Riverbank, Hollow Root No. 4",
+    "avatar": "🌿",
+    "description": "Listens through the moss. Letters are rolled up and tucked between its bark folds.",
+    "stampType": "moss-seal",
+    "deliveryMethod": "River Breeze"
+  },
+  {
+    "id": "recipient-tomorrow",
+    "name": "Tomorrow Morning",
+    "address": "Just Past the Horizon of Sleep",
+    "avatar": "✨",
+    "description": "Always one step ahead. Best reached by leaving notes under your pillow.",
+    "stampType": "dawn-petal",
+    "deliveryMethod": "First Sparrow Flight"
+  },
+  {
+    "id": "recipient-lost-keys",
+    "name": "The Keeper of Lost Keys",
+    "address": "The Cupboard Beneath the Oak Tree",
+    "avatar": "🗝️",
+    "description": "Holds the keys to forgotten memories, garden gates, and childhood diaries.",
+    "stampType": "brass-key",
+    "deliveryMethod": "Magpie Courier"
+  },
+  {
+    "id": "recipient-silver-fox",
+    "name": "The Fox with Silver Paws",
+    "address": "Blueberry Thicket, Twilight Glade",
+    "avatar": "🦊",
+    "description": "Runs silently across snow and clover. Loves secrets tied with lavender thread.",
+    "stampType": "acorn-crest",
+    "deliveryMethod": "Night Scent Trail"
+  },
+  {
+    "id": "recipient-dreams",
+    "name": "The Cloud Weaver",
+    "address": "Highest Attic of the Lavender Sky",
+    "avatar": "☁️",
+    "description": "Spins soft morning mist and afternoon rain from happy thoughts.",
+    "stampType": "raindrop-foil",
+    "deliveryMethod": "Gentle Downdraft"
+  }
+]

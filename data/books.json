@@ -1,0 +1,64 @@
+[
+  {
+    "id": "book-1",
+    "title": "The Cartography of Forgotten Dreams",
+    "author": "M. Vance",
+    "category": "Geography of the Mind",
+    "description": "A worn, clothbound atlas with hand-inked coastlines of things people woke up before finishing.",
+    "memorableLine": "“Every morning, several million islands disappear beneath the breakfast table.”",
+    "notes": "She dog-eared page 42, where a coastal town called 'Almost Remembered' is drawn with tiny lighthouse ink.",
+    "color": "#4a5568",
+    "hasClue": true,
+    "clueText": "Tucked between pages 42 and 43 is a scrap of receipt from 1978: 'Key left where the clock pendulum never strikes.'"
+  },
+  {
+    "id": "book-2",
+    "title": "Letters I Never Sent to the Sun",
+    "author": "Anonymous",
+    "category": "Epistles",
+    "description": "A slender volume bound in gold leaf and scorched parchment edges.",
+    "memorableLine": "“You make everything so bright that nobody ever looks directly at you. I know what that is like, in reverse.”",
+    "notes": "There are dried chamomile petals pressed into the back cover.",
+    "color": "#b7791f"
+  },
+  {
+    "id": "book-3",
+    "title": "How to Recognize a Star",
+    "author": "Dr. E. Sterling",
+    "category": "Field Guides",
+    "description": "An astronomical field guide annotated in violet pencil with gentle corrections.",
+    "memorableLine": "“Do not confuse Sirius with a falling tear; Sirius stays until breakfast.”",
+    "notes": "In the margin she wrote: 'Sterling was wrong about Betelgeuse. It smells like roasted pecans when it blinks.'",
+    "color": "#2c5282"
+  },
+  {
+    "id": "book-4",
+    "title": "Tea Recipes for Sleepless Nights",
+    "author": "G. O'Malley",
+    "category": "Domestic Arts",
+    "description": "A damp-stained cookbook with recipes calling for rainwater gathered on Tuesdays.",
+    "memorableLine": "“A pinch of dried mint, two cloves, and the patience to watch the mug until your shoulders drop.”",
+    "notes": "The recipe for 'Midnight Oolong' has four exclamation marks next to 'Do NOT boil twice.'",
+    "color": "#702459"
+  },
+  {
+    "id": "book-5",
+    "title": "A Natural History of Silence",
+    "author": "K. Lindqvist",
+    "category": "Essays",
+    "description": "Studies on snow, empty rooms, deep trenches, and the space between two strangers on a bus.",
+    "memorableLine": "“Silence is not the absence of sound; it is the furniture of being alone.”",
+    "notes": "Underlined twice in soft pencil.",
+    "color": "#234e52"
+  },
+  {
+    "id": "book-6",
+    "title": "Why Humans Keep Dropping Teaspoons",
+    "author": "The Observer on the 4th Floor",
+    "category": "Earth Studies",
+    "description": "A humorous monograph documenting human clumsiness between 11:00 PM and 3:00 AM.",
+    "memorableLine": "“Gravity is merely an excuse for tired wrists.”",
+    "notes": "The margin contains a tally of dropped spoons seen through the telescope this month: 14.",
+    "color": "#744210"
+  }
+]

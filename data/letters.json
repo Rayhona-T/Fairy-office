@@ -1,0 +1,69 @@
+[
+  {
+    "id": "letter-to-earth",
+    "recipient": "Earth",
+    "sender": "The Moon",
+    "date": "Apogee • 384,400 km away",
+    "stamp": "🌍",
+    "paperTheme": "dusty-cream",
+    "waxSeal": "rose-gold",
+    "preview": "Dear Earth, you spin so fast it makes my craters dizzy...",
+    "content": "Dear Earth,\n\nYou spin so fast it makes my craters dizzy. Every twenty-four hours you roll over in your bed of clouds, showing me another ocean, another range of white-tipped mountains, another thousand cities waking up.\n\nDo you know how beautiful you look from here? You wear the atmosphere like a silk veil that never tears. Sometimes I tug at your oceans just to see the waves jump up to meet me.\n\nNever stop spinning. It gets so cold when you face away.\n\nYours in orbit,\nThe Moon"
+  },
+  {
+    "id": "letter-to-sun",
+    "recipient": "The Sun",
+    "sender": "The Moon",
+    "date": "Solar Perihelion",
+    "stamp": "☀️",
+    "paperTheme": "warm-sage",
+    "waxSeal": "burnished-gold",
+    "preview": "Dear Sun, thank you for the gold leaf you lend me every evening...",
+    "content": "Dear Sun,\n\nThank you for the gold leaf you lend me every evening. I borrow your light, polish it against the dust of mare basins, and turn it into silver for the people who walk home alone.\n\nYou never ask for it back, and for that I am grateful. Even when I stand directly in front of you during eclipses, you only crown me with a corona of white flames instead of being angry.\n\nSleep well on the other side of the dark.\n\nLuna"
+  },
+  {
+    "id": "letter-to-star",
+    "recipient": "Polaris (The North Star)",
+    "sender": "The Moon",
+    "date": "Starlight Drift",
+    "stamp": "✨",
+    "paperTheme": "lavender-mist",
+    "waxSeal": "midnight-wax",
+    "preview": "Dear North Star, do you ever get tired of everyone relying on you?...",
+    "content": "Dear North Star,\n\nDo you ever get tired of everyone relying on you? Sailors in wooden ships, lost children in pine forests, birds migrating across continents—they all look for your unblinking eye.\n\nI change my shape every single week. Some nights I am a fat porcelain saucer, other nights a sliver of fingernail, and some nights I vanish completely just to see if anyone misses me.\n\nI envy your steadfastness. But I think you might envy my freedom to hide.\n\nYour wandering sister,\nLuna"
+  },
+  {
+    "id": "letter-to-unnamed",
+    "recipient": "The Person Who Stared at Me from the Pier",
+    "sender": "The Moon",
+    "date": "August 12 • High Tide",
+    "stamp": "🌊",
+    "paperTheme": "dusty-cream",
+    "waxSeal": "forest-wax",
+    "preview": "You were wearing an oversized green coat and holding cold fish and chips...",
+    "content": "To the person who stood on the wooden pier at 3:15 AM:\n\nYou were wearing an oversized green coat and holding cold fish and chips you weren't eating. You had tears on your cheeks that dried in the salty wind before they could drop into the water.\n\nYou looked up at me for twenty-seven minutes. I couldn't say anything—I am just rock and light and ancient gravity. So I drew a silver path straight across the black water, from my horizon right to your muddy boots.\n\nI hope you made it home. I watched until your front door clicked shut."
+  },
+  {
+    "id": "letter-to-future-self",
+    "recipient": "My Future Self (In One Billion Years)",
+    "sender": "The Moon",
+    "date": "Present Epoch",
+    "stamp": "⏳",
+    "paperTheme": "aged-parchment",
+    "waxSeal": "rose-gold",
+    "preview": "Are you still drifting three centimeters further away each year?...",
+    "content": "Dear Future Me,\n\nAre you still drifting three centimeters further away from Earth every year? Are you very far now? Can you still hear the crickets in summer or smell the cedar trees when the wind blows upward?\n\nIf Earth is asleep by the time you read this, remember the way she looked under her blue clouds. Remember that we were companions once. We danced for five billion years, and nobody in the universe ever did it with more grace."
+  },
+  {
+    "id": "letter-locked-memory",
+    "recipient": "The Astronaut in the White Suit",
+    "sender": "The Moon",
+    "date": "July 20, 1969 • Sea of Tranquility",
+    "stamp": "🗝️",
+    "paperTheme": "delicate-parchment",
+    "waxSeal": "crimson-seal",
+    "locked": true,
+    "preview": "🔒 [Kept inside the locked drawer for 47 years]",
+    "content": "You left a footprint in my gray dust, and because there is no wind here, it will stay for a million years.\n\nYou were shaking inside your heavy helmet. I could hear your heart beating through your boots—thump, thump, thump against the basalt. You were so small, like a seed blown across a great abyss.\n\nBefore you climbed back up the ladder, you dropped a tiny sprig of dried blue gentian and a gold olive branch. I hid them in this drawer so the solar radiation wouldn't burn them.\n\nYou came in peace for all mankind. I kept your footprint safe. I always will."
+  }
+]

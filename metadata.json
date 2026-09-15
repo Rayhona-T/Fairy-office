@@ -1,0 +1,6 @@
+{
+  "name": "The Fairy Post Office",
+  "description": "A whimsical sanctuary & the Moon's apartment, where letters are sent to places that don't exist and the Moon's quiet world comes alive.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

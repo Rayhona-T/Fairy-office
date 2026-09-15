@@ -1,0 +1,4489 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Marck+Script&family=Quicksand:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Whimsical Fairy Palette */
+  --c-night-sky: #121421;
+  --c-night-mist: #1d2133;
+  --c-night-canopy: #2a3147;
+  --c-moon-glow: #fef6e2;
+  --c-dusty-pink: #d8a4a6;
+  --c-dusty-pink-light: #f1dcde;
+  --c-dusty-pink-dark: #a86c70;
+  --c-warm-cream: #faf5ea;
+  --c-parchment: #f4ecdb;
+  --c-parchment-border: #dfcfb4;
+  --c-aged-paper: #ebdcc3;
+  --c-muted-lavender: #b5a5c4;
+  --c-lavender-mist: #e6e0ed;
+  --c-lavender-dark: #3c3247;
+  --c-sage-green: #899c85;
+  --c-sage-light: #d1ded0;
+  --c-sage-deep: #435440;
+  --c-fairy-gold: #e5c365;
+  --c-gold-leaf: #d4ae45;
+  --c-gold-burnished: #9e7a27;
+  --c-wood-deep: #382821;
+  --c-wood-rich: #4f3b32;
+  --c-wood-amber: #6d5245;
+  --c-wax-crimson: #91343f;
+  --c-wax-forest: #385e45;
+  --c-wax-midnight: #394268;
+  --c-ink: #2b2528;
+  --c-ink-soft: #4a4045;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-hand: 'Marck Script', 'Caveat', cursive;
+  --font-casual-hand: 'Caveat', cursive;
+  --font-sans: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Radius & Shadows */
+  --radius-cozy: 14px;
+  --radius-soft: 8px;
+  --shadow-fairy-glow: 0 0 20px rgba(229, 195, 101, 0.25);
+  --shadow-candle-glow: 0 0 35px rgba(245, 190, 100, 0.35);
+  --shadow-paper: 0 8px 24px -4px rgba(35, 25, 20, 0.18), 0 2px 6px rgba(35, 25, 20, 0.1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--c-night-sky);
+  color: var(--c-warm-cream);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Base canvas for floating fireflies & stars */
+#fireflies-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient vignette layer */
+.night-vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, transparent 40%, rgba(10, 11, 19, 0.65) 90%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* App container */
+.fairy-app {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header / Ambient Banner */
+.fairy-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  position: relative;
+  z-index: 20;
+}
+
+.fairy-time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(36, 32, 46, 0.7);
+  border: 1px solid rgba(216, 164, 166, 0.25);
+  color: var(--c-dusty-pink-light);
+  font-size: 0.88rem;
+  font-family: var(--font-serif);
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(8px);
+}
+
+.fairy-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.fairy-btn-subtle {
+  background: rgba(36, 32, 46, 0.65);
+  border: 1px solid rgba(229, 195, 101, 0.25);
+  color: var(--c-warm-cream);
+  padding: 7px 15px;
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.fairy-btn-subtle:hover {
+  background: rgba(60, 50, 71, 0.85);
+  border-color: var(--c-fairy-gold);
+  color: var(--c-fairy-gold);
+  box-shadow: 0 0 12px rgba(229, 195, 101, 0.25);
+}
+
+/* ==========================================================================
+   VIEW 1: THE FAIRY POST OFFICE EXTERIOR (LANDING SCENE)
+   ========================================================================== */
+
+.scene-glade {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 40px;
+  text-align: center;
+}
+
+/* Moon & Cloud Backdrop */
+.moonlit-sky {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 900px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.the-moon {
+  position: absolute;
+  top: 15px;
+  right: 15%;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffdf8, #f4e8c5 55%, #dfc38a 95%);
+  box-shadow: 0 0 45px rgba(254, 246, 226, 0.65), 0 0 85px rgba(229, 195, 101, 0.25);
+}
+
+.the-moon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 60% 45%, rgba(195, 168, 115, 0.22) 15%, transparent 60%);
+}
+
+.cloud-wisp {
+  position: absolute;
+  top: 55px;
+  right: 8%;
+  width: 180px;
+  height: 38px;
+  background: linear-gradient(90deg, transparent, rgba(181, 165, 196, 0.2), transparent);
+  border-radius: 20px;
+  filter: blur(8px);
+}
+
+/* Title & Subtitle */
+.post-office-header {
+  position: relative;
+  z-index: 5;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.title-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--c-dusty-pink);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.title-ornament::before,
+.title-ornament::after {
+  content: '';
+  display: inline-block;
+  width: 38px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c-dusty-pink), transparent);
+}
+
+.fairy-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 500;
+  letter-spacing: 3px;
+  color: var(--c-warm-cream);
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.fairy-subtitle {
+  font-family: var(--font-hand);
+  font-size: clamp(1.35rem, 3.2vw, 1.95rem);
+  color: var(--c-dusty-pink-light);
+  margin-top: 10px;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(18, 20, 33, 0.8);
+}
+
+/* Cottage / Fairy Post Office Building Illustration */
+.cottage-container {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 15px;
+}
+
+.fairy-cottage {
+  position: relative;
+  width: 340px;
+  height: 290px;
+  margin: 0 auto;
+}
+
+/* Chimney & Smoke */
+.chimney {
+  position: absolute;
+  top: 10px;
+  left: 55px;
+  width: 32px;
+  height: 60px;
+  background: linear-gradient(to right, #423028, #5a4237 60%, #34241d);
+  border-radius: 4px 4px 0 0;
+  border-top: 5px solid #2e201b;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.smoke-puff {
+  position: absolute;
+  top: -18px;
+  left: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(229, 218, 235, 0.45);
+  filter: blur(4px);
+}
+
+/* Thatched Mossy Roof */
+.cottage-roof {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 300px;
+  height: 110px;
+  background: linear-gradient(135deg, #435440 0%, #5d6f54 45%, #3d4a3b 100%);
+  border-radius: 140px 140px 25px 25px / 90px 90px 25px 25px;
+  box-shadow: 0 10px 25px rgba(10, 12, 20, 0.6), inset 0 6px 12px rgba(137, 156, 133, 0.4);
+  border-bottom: 6px solid #2d382b;
+  overflow: hidden;
+}
+
+/* Moss & Flower Patches on Roof */
+.moss-cluster {
+  position: absolute;
+  border-radius: 50%;
+  background: #798d74;
+  opacity: 0.8;
+}
+.moss-cluster.m1 { top: 20px; left: 60px; width: 45px; height: 18px; }
+.moss-cluster.m2 { top: 35px; right: 70px; width: 60px; height: 22px; }
+.moss-cluster.m3 { top: 60px; left: 110px; width: 80px; height: 25px; }
+
+.roof-flowers {
+  position: absolute;
+  top: 25px;
+  right: 75px;
+  font-size: 13px;
+  color: var(--c-dusty-pink-light);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* Cottage Wooden Body */
+.cottage-body {
+  position: absolute;
+  bottom: 0;
+  left: 45px;
+  width: 250px;
+  height: 155px;
+  background: linear-gradient(to right, #3c2a21, #4d382e 50%, #38271e);
+  border-radius: 8px 8px 16px 16px;
+  box-shadow: inset 0 10px 15px rgba(0, 0, 0, 0.4), 0 12px 28px rgba(15, 18, 28, 0.7);
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding-bottom: 12px;
+  border: 1px solid rgba(109, 82, 69, 0.5);
+}
+
+/* Timber framing accents */
+.cottage-beam {
+  position: absolute;
+  background: #2a1d17;
+}
+.beam-horiz {
+  top: 10px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+}
+.beam-vert-left {
+  top: 10px;
+  left: 20px;
+  width: 8px;
+  height: 100%;
+}
+.beam-vert-right {
+  top: 10px;
+  right: 20px;
+  width: 8px;
+  height: 100%;
+}
+
+/* Glowing Window */
+.cottage-window {
+  position: absolute;
+  top: 30px;
+  left: 25px;
+  width: 54px;
+  height: 64px;
+  background: radial-gradient(circle at 50% 50%, #fff7d6 10%, #ffd475 60%, #e09838 100%);
+  border-radius: 26px 26px 6px 6px;
+  border: 4px solid #36241a;
+  box-shadow: 0 0 25px 8px rgba(255, 212, 117, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.window-bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.window-bars::before {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 100%;
+  background: #36241a;
+}
+.window-bars::after {
+  content: '';
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: #36241a;
+}
+
+/* Little Window Flower Box */
+.window-flowerbox {
+  position: absolute;
+  top: 96px;
+  left: 20px;
+  width: 64px;
+  height: 12px;
+  background: #281912;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 11px;
+}
+
+/* Hanging Sign: "FAIRY POST" */
+.hanging-sign-mount {
+  position: absolute;
+  top: 25px;
+  right: -32px;
+  width: 48px;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 8;
+}
+
+.sign-bracket {
+  width: 34px;
+  height: 4px;
+  background: #221712;
+  border-radius: 2px;
+}
+
+.sign-chains {
+  display: flex;
+  justify-content: space-between;
+  width: 22px;
+  height: 10px;
+}
+.sign-chain {
+  width: 2px;
+  height: 100%;
+  background: #8e7b57;
+}
+
+.sign-board {
+  background: #dfcfb4;
+  border: 2px solid #5a4237;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-family: var(--font-hand);
+  font-size: 11px;
+  font-weight: 700;
+  color: #3b2820;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* Main Entrance Arched Door */
+.cottage-door-wrapper {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cottage-door {
+  width: 72px;
+  height: 105px;
+  background: linear-gradient(180deg, #614436 0%, #463026 100%);
+  border-radius: 36px 36px 4px 4px;
+  border: 4px solid #2b1c15;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.6), 0 0 18px rgba(229, 195, 101, 0.3);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 8px;
+  overflow: hidden;
+}
+
+.cottage-door::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  width: 22px;
+  height: 28px;
+  border-radius: 12px 12px 3px 3px;
+  background: radial-gradient(circle, #fff3c9 20%, #ffc857 70%, #d48a28 100%);
+  border: 2px solid #2b1c15;
+  box-shadow: 0 0 15px rgba(255, 200, 87, 0.7);
+}
+
+.door-knob {
+  position: absolute;
+  right: 12px;
+  top: 55px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe394, #b58321);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.door-mail-slot {
+  width: 32px;
+  height: 5px;
+  background: #251610;
+  border-radius: 2px;
+  border: 1px solid #7d5e4b;
+  margin-bottom: 6px;
+}
+
+.door-wreath {
+  position: absolute;
+  top: 22px;
+  font-size: 14px;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+.cottage-door:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 25px rgba(255, 214, 138, 0.7), inset 0 0 15px rgba(255, 214, 138, 0.4);
+}
+
+/* Door lantern */
+.door-lantern {
+  position: absolute;
+  top: 42px;
+  right: 88px;
+  font-size: 18px;
+  filter: drop-shadow(0 0 12px rgba(255, 206, 110, 0.8));
+  cursor: pointer;
+}
+
+/* Toadstool Mailbox & Garden Flora */
+.glade-surroundings {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  justify-content: space-between;
+  transform: translateX(10px);
+  margin-top: -20px;
+  padding: 0 20px;
+  z-index: 8;
+  pointer-events: auto;
+}
+
+.tiny-mailbox-post {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.tiny-mailbox-post:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.mailbox-box {
+  background: #a84752;
+  border: 2px solid #541d24;
+  border-radius: 12px 12px 4px 4px;
+  padding: 6px 10px;
+  color: var(--c-warm-cream);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.25);
+  font-size: 13px;
+  position: relative;
+}
+
+.mailbox-flag {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 6px;
+  height: 12px;
+  background: var(--c-fairy-gold);
+  border-radius: 2px;
+}
+
+.mailbox-wood-stake {
+  width: 6px;
+  height: 38px;
+  background: #3b2a22;
+  border-radius: 2px;
+}
+
+.flower-patch-left,
+.flower-patch-right {
+  display: flex;
+  gap: 8px;
+  font-size: 20px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+
+.flower-patch-left span,
+.flower-patch-right span {
+  display: inline-block;
+  cursor: default;
+  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+.flower-patch-left span:hover,
+.flower-patch-right span:hover {
+  transform: scale(1.25) translateY(-4px);
+}
+
+/* Call to Action: "Push open the oak door" */
+.entrance-cta-wrapper {
+  margin-top: 32px;
+  position: relative;
+  z-index: 10;
+}
+
+.fairy-enter-btn {
+  background: linear-gradient(135deg, #443248 0%, #2f2538 100%);
+  border: 1.5px solid var(--c-dusty-pink);
+  color: var(--c-warm-cream);
+  padding: 14px 34px;
+  border-radius: 30px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(22, 18, 29, 0.6), 0 0 15px rgba(216, 164, 166, 0.25);
+  transition: all 0.35s ease;
+}
+
+.fairy-enter-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #57405c 0%, #3c2e47 100%);
+  border-color: var(--c-fairy-gold);
+  box-shadow: 0 12px 28px rgba(22, 18, 29, 0.7), 0 0 25px rgba(229, 195, 101, 0.4);
+  color: var(--c-fairy-gold);
+}
+
+.fairy-enter-btn .key-icon {
+  color: var(--c-fairy-gold);
+}
+
+/* ==========================================================================
+   VIEW 2: COZY ROOM INTERIOR (INSIDE THE FAIRY POST OFFICE)
+   ========================================================================== */
+
+.scene-interior {
+  position: relative;
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 24px 60px;
+}
+
+.scene-interior.active {
+  display: flex;
+}
+
+/* Wooden Interior Atmosphere */
+.interior-room-box {
+  background: radial-gradient(circle at 50% 25%, #2a2228 0%, #1c161d 55%, #141016 100%);
+  border: 2px solid rgba(109, 82, 69, 0.4);
+  border-radius: var(--radius-cozy);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 0 80px rgba(18, 12, 16, 0.8);
+  padding: 24px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hanging fairy lights across the ceiling */
+.fairy-lights-garland {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed rgba(229, 195, 101, 0.2);
+}
+
+.fairy-bulb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.bulb-wire {
+  width: 1px;
+  height: 18px;
+  background: rgba(142, 123, 87, 0.7);
+}
+
+.bulb-glass {
+  width: 12px;
+  height: 16px;
+  border-radius: 50% 50% 40% 40%;
+  background: #fff4d1;
+  box-shadow: 0 0 14px 4px rgba(255, 218, 125, 0.8), 0 0 28px 8px rgba(255, 170, 70, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.bulb-glass:hover {
+  transform: scale(1.3);
+}
+
+/* Interior Room Top Bar: Clock, Desk signage, Door back outside */
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.room-signage {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.room-stamp-crest {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(60, 48, 42, 0.8);
+  border: 2px dashed var(--c-fairy-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--c-fairy-gold);
+  box-shadow: 0 0 12px rgba(229, 195, 101, 0.2);
+}
+
+.room-title-h1 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--c-warm-cream);
+  letter-spacing: 1px;
+}
+
+.room-sub-quote {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--c-dusty-pink);
+}
+
+/* Old grandfather clock */
+.vintage-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(43, 31, 26, 0.7);
+  border: 1px solid rgba(229, 195, 101, 0.3);
+  border-radius: 12px;
+  padding: 8px 16px;
+  color: var(--c-parchment);
+}
+
+.clock-face {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f4ecdb;
+  border: 2px solid #5a4237;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #3b2820;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+}
+
+.clock-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.clock-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--c-dusty-pink);
+}
+
+.clock-time {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-warm-cream);
+}
+
+/* Return Outside Button */
+.btn-return-outside {
+  background: rgba(50, 40, 56, 0.7);
+  border: 1px solid rgba(216, 164, 166, 0.35);
+  color: var(--c-dusty-pink-light);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-return-outside:hover {
+  background: rgba(72, 57, 82, 0.85);
+  border-color: var(--c-dusty-pink);
+  color: #fff;
+}
+
+/* ==========================================================================
+   FAIRY NAVIGATION: PHYSICAL STATIONS OF THE POST OFFICE
+   ✉ Write a Letter • 📮 Mailbox • 🧚 Recipients • 📜 My Letters
+   ========================================================================== */
+
+.post-office-stations {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.station-btn {
+  background: linear-gradient(180deg, rgba(58, 45, 40, 0.8) 0%, rgba(42, 32, 28, 0.95) 100%);
+  border: 1px solid rgba(158, 122, 102, 0.4);
+  border-radius: 12px;
+  padding: 14px 12px;
+  color: var(--c-warm-cream);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(15, 12, 18, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.station-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--c-fairy-gold);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.station-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--c-fairy-gold);
+  background: linear-gradient(180deg, rgba(72, 56, 50, 0.9) 0%, rgba(52, 40, 35, 0.98) 100%);
+  box-shadow: 0 8px 20px rgba(15, 12, 18, 0.5), 0 0 12px rgba(229, 195, 101, 0.25);
+}
+
+.station-btn.active {
+  border-color: var(--c-fairy-gold);
+  background: linear-gradient(180deg, rgba(82, 59, 65, 0.85) 0%, rgba(53, 38, 48, 0.95) 100%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(229, 195, 101, 0.2);
+}
+
+.station-btn.active::after {
+  opacity: 1;
+}
+
+.station-icon {
+  font-size: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+.station-label {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.station-desc {
+  font-size: 0.76rem;
+  color: var(--c-dusty-pink-light);
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   STATION 1: WRITING DESK (✉ WRITE A LETTER)
+   ========================================================================== */
+
+.writing-desk-stage {
+  display: grid;
+  grid-template-columns: 1fr 310px;
+  gap: 24px;
+}
+
+/* Parchment Letter Writing Area */
+.letter-parchment {
+  background: var(--c-parchment);
+  color: var(--c-ink);
+  border-radius: 6px;
+  padding: 34px 38px 40px;
+  box-shadow: var(--shadow-paper), inset 0 0 60px rgba(189, 168, 137, 0.25);
+  border: 1px solid var(--c-parchment-border);
+  position: relative;
+  background-image:
+    linear-gradient(rgba(180, 155, 130, 0.12) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+/* Pressed Flower and Wax Stamp in parchment corner */
+.parchment-dried-flower {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 26px;
+  opacity: 0.75;
+  transform: rotate(15deg);
+  pointer-events: none;
+}
+
+.parchment-header {
+  margin-bottom: 22px;
+  border-bottom: 1px solid rgba(180, 155, 130, 0.35);
+  padding-bottom: 14px;
+}
+
+.parchment-recipient-picker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.parchment-label {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: #5c4a40;
+  white-space: nowrap;
+}
+
+.fairy-select {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid #c7b69c;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--c-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.fairy-select:focus {
+  border-color: var(--c-dusty-pink-dark);
+}
+
+.fairy-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid #c7b69c;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--c-ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.fairy-input:focus {
+  border-color: var(--c-dusty-pink-dark);
+}
+
+.parchment-body-textarea {
+  width: 100%;
+  min-height: 220px;
+  background: transparent;
+  border: none;
+  resize: vertical;
+  outline: none;
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  line-height: 28px;
+  color: var(--c-ink);
+  padding: 0;
+  letter-spacing: 0.5px;
+}
+
+.parchment-body-textarea::placeholder {
+  color: rgba(90, 75, 70, 0.4);
+  font-style: italic;
+}
+
+.parchment-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(180, 155, 130, 0.35);
+}
+
+.parchment-signature-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 280px;
+}
+
+.btn-seal-and-send {
+  background: linear-gradient(135deg, var(--c-wax-crimson) 0%, #6e1c27 100%);
+  border: 1.5px solid #d4ae45;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(110, 28, 39, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.btn-seal-and-send:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(110, 28, 39, 0.6), 0 0 15px rgba(229, 195, 101, 0.4);
+}
+
+/* Desk Accessories Sidebar (Candle, Stamps, Wax, Ribbon) */
+.desk-tools-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.desk-item-card {
+  background: rgba(43, 33, 29, 0.7);
+  border: 1px solid rgba(137, 104, 86, 0.35);
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.desk-item-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--c-dusty-pink);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* Interactive Candle */
+.candle-stand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.candle-pillar {
+  position: relative;
+  width: 22px;
+  height: 52px;
+  background: linear-gradient(to right, #fbf7ee, #e8dbc0 60%, #c5b597);
+  border-radius: 4px 4px 2px 2px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.candle-wax-drip {
+  position: absolute;
+  top: 6px;
+  left: -2px;
+  width: 5px;
+  height: 14px;
+  background: #fbf7ee;
+  border-radius: 3px;
+}
+
+.candle-wick {
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  width: 2px;
+  height: 8px;
+  background: #33221b;
+}
+
+.candle-flame {
+  position: absolute;
+  top: -24px;
+  left: 6px;
+  width: 10px;
+  height: 18px;
+  border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 50% 80%, #ffffff 10%, #ffd45e 45%, #ff772e 85%);
+}
+
+.candle-flame.extinguished {
+  display: none;
+}
+
+.candle-hint {
+  font-size: 0.8rem;
+  color: var(--c-dusty-pink-light);
+  line-height: 1.35;
+}
+
+/* Stamp Selection Grid */
+.stamp-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.stamp-option {
+  background: var(--c-parchment);
+  border: 1.5px dashed var(--c-dusty-pink-dark);
+  border-radius: 4px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: #33221b;
+  position: relative;
+}
+
+.stamp-option:hover {
+  transform: scale(1.1);
+  border-color: var(--c-fairy-gold);
+  box-shadow: 0 0 10px rgba(229, 195, 101, 0.4);
+}
+
+.stamp-option.selected {
+  border-color: var(--c-wax-crimson);
+  border-style: solid;
+  background: #fceeed;
+  box-shadow: 0 0 12px rgba(216, 164, 166, 0.5);
+}
+
+/* Wax Seal Choices */
+.wax-color-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.wax-bubble {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease;
+}
+
+.wax-bubble:hover {
+  transform: scale(1.15);
+}
+
+.wax-bubble.selected {
+  border-color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+.wax-rose { background: var(--c-wax-crimson); }
+.wax-gold { background: var(--c-fairy-gold); }
+.wax-moss { background: var(--c-wax-forest); }
+.wax-twilight { background: var(--c-wax-midnight); }
+
+/* Tiny parcels & Ribbon */
+.parcel-shelf-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+  color: var(--c-dusty-pink-light);
+}
+
+.mini-parcel {
+  width: 44px;
+  height: 34px;
+  background: #c5a882;
+  border: 1px solid #7c6052;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.mini-parcel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: var(--c-wax-crimson);
+}
+.mini-parcel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  background: var(--c-wax-crimson);
+}
+
+/* ==========================================================================
+   STATION 2: THE BRASS MAILBOX (📮 MAILBOX)
+   ========================================================================== */
+
+.mailbox-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 10px 0;
+}
+
+.mailbox-visual-shrine {
+  width: 100%;
+  max-width: 520px;
+  background: radial-gradient(circle at 50% 40%, rgba(68, 52, 45, 0.8), rgba(30, 22, 20, 0.95));
+  border: 1px solid rgba(229, 195, 101, 0.3);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.mailbox-crest {
+  font-size: 3.5rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 15px rgba(229, 195, 101, 0.4));
+}
+
+.mailbox-shrine-title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--c-warm-cream);
+}
+
+.mailbox-shrine-desc {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--c-dusty-pink-light);
+  margin-top: 6px;
+}
+
+.mailbox-slot-interactive {
+  margin: 24px auto 14px;
+  width: 220px;
+  height: 24px;
+  background: #191210;
+  border: 3px solid var(--c-fairy-gold);
+  border-radius: 12px;
+  box-shadow: inset 0 4px 10px rgba(0,0,0,0.8), 0 0 14px rgba(229, 195, 101, 0.3);
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.mailbox-slot-interactive:hover {
+  border-color: #fff4d1;
+  box-shadow: 0 0 20px rgba(255, 218, 125, 0.6);
+}
+
+.slot-brass-plate {
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: var(--c-fairy-gold);
+  text-transform: uppercase;
+}
+
+.mailbox-stats-row {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed rgba(229, 195, 101, 0.2);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--c-fairy-gold);
+}
+
+.stat-tag {
+  font-size: 0.78rem;
+  color: var(--c-dusty-pink-light);
+}
+
+/* ==========================================================================
+   STATION 3: RECIPIENTS PIGEONHOLES (🧚 RECIPIENTS)
+   ========================================================================== */
+
+.recipients-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stage-intro-banner {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.stage-intro-banner h2 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--c-warm-cream);
+}
+
+.stage-intro-banner p {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--c-dusty-pink-light);
+}
+
+.recipients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.recipient-pigeonhole {
+  background: linear-gradient(135deg, rgba(46, 35, 30, 0.85) 0%, rgba(35, 26, 22, 0.95) 100%);
+  border: 1px solid rgba(158, 122, 102, 0.4);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 6px 18px rgba(10, 8, 12, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.recipient-pigeonhole:hover {
+  transform: translateY(-4px);
+  border-color: var(--c-fairy-gold);
+  box-shadow: 0 10px 24px rgba(10, 8, 12, 0.6), 0 0 14px rgba(229, 195, 101, 0.25);
+}
+
+.recipient-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.recipient-avatar-bubble {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(60, 48, 42, 0.8);
+  border: 1.5px solid var(--c-fairy-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(229, 195, 101, 0.2);
+}
+
+.recipient-meta h3 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--c-warm-cream);
+  line-height: 1.2;
+}
+
+.recipient-address {
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: var(--c-dusty-pink);
+}
+
+.recipient-desc {
+  font-size: 0.85rem;
+  color: #dfd8cf;
+  margin-bottom: 14px;
+  line-height: 1.45;
+}
+
+.recipient-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed rgba(180, 155, 130, 0.25);
+  padding-top: 10px;
+}
+
+.delivery-badge {
+  font-size: 0.76rem;
+  color: var(--c-sage-light);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-write-to-recipient {
+  background: transparent;
+  border: 1px solid var(--c-dusty-pink);
+  color: var(--c-dusty-pink-light);
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-write-to-recipient:hover {
+  background: var(--c-dusty-pink);
+  color: #2b1f1d;
+}
+
+/* ==========================================================================
+   STATION 4: ARCHIVE SHELVES (📜 MY LETTERS)
+   ========================================================================== */
+
+.archive-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.archive-letters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.saved-letter-card {
+  background: var(--c-parchment);
+  color: var(--c-ink);
+  border-radius: 6px;
+  padding: 22px 24px;
+  box-shadow: var(--shadow-paper);
+  border: 1px solid var(--c-parchment-border);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.saved-letter-card:hover {
+  transform: translateY(-4px) rotate(0.4deg);
+  box-shadow: 0 12px 28px rgba(25, 18, 15, 0.25);
+}
+
+.saved-letter-stamp {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+.saved-letter-recipient {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #4a382e;
+  margin-bottom: 2px;
+  padding-right: 32px;
+}
+
+.saved-letter-date {
+  font-size: 0.78rem;
+  color: #8c7666;
+  margin-bottom: 12px;
+}
+
+.saved-letter-excerpt {
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  color: #3a2e2d;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.saved-letter-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed #d5c3ab;
+  padding-top: 10px;
+}
+
+.wax-seal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--c-wax-crimson);
+  font-weight: 600;
+}
+
+.btn-read-letter {
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  color: #634d40;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   MODAL: LETTER READING POPUP (UNFOLDED PARCHMENT)
+   ========================================================================== */
+
+.fairy-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 16, 26, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fairy-modal-overlay.active {
+  display: flex;
+}
+
+.modal-parchment-sheet {
+  background: var(--c-parchment);
+  color: var(--c-ink);
+  width: 100%;
+  max-width: 580px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 36px 40px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 50px rgba(189, 168, 137, 0.3);
+  border: 1px solid var(--c-parchment-border);
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #634d40;
+  transition: transform 0.2s ease;
+}
+.modal-close-btn:hover {
+  transform: scale(1.2);
+}
+
+.modal-letter-content {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  margin: 18px 0;
+  color: #2b1f1d;
+}
+
+/* Success notification toast (gentle floating ribbon) */
+.fairy-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #3d2f3a 0%, #291e27 100%);
+  border: 1.5px solid var(--c-fairy-gold);
+  border-radius: 30px;
+  padding: 12px 28px;
+  color: var(--c-warm-cream);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(229, 195, 101, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 200;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  pointer-events: none;
+}
+
+.fairy-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================\n+   STORYBOOK CONSISTENCY PASS\n+   Shared materials, controls, and room proportions for the whole post office.\n+   ========================================================================== */
+:root {
+  --night: #121421;
+  --deep-night: #0b0d17;
+  --night-plum: #28202c;
+  --moonlight: #fef6e2;
+  --paper: #f7efdf;
+  --paper-shadow: 0 12px 28px rgba(7, 8, 15, 0.36);
+  --paper-radius: 10px;
+  --small-radius: 6px;
+  --warm-gold: #e5c365;
+  --rose: #d8a4a6;
+  --ink: #33252a;
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 36px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.fairy-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 18px;
+  border: 1px solid var(--warm-gold);
+  border-radius: var(--small-radius);
+  background: linear-gradient(145deg, #73505b, #422f3e);
+  color: var(--moonlight);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  box-shadow: 0 5px 16px rgba(9, 8, 15, 0.32), inset 0 1px rgba(255,255,255,0.14);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.fairy-btn-primary:hover,
+.fairy-btn-primary:focus-visible {
+  transform: translateY(-2px);
+  background: linear-gradient(145deg, #8a606a, #513849);
+  box-shadow: 0 8px 22px rgba(9, 8, 15, 0.42), 0 0 16px rgba(229, 195, 101, 0.2);
+}
+
+.fairy-topbar {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 18px 28px 12px;
+  gap: 16px;
+}
+
+.fairy-actions {
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.fairy-time-badge,
+.world-mail-badge,
+.btn-discoveries-tracker,
+.fairy-btn-subtle {
+  border-radius: var(--small-radius);
+  min-height: 38px;
+  backdrop-filter: blur(10px);
+}
+
+.fairy-time-badge {
+  border-color: rgba(216, 164, 166, 0.38);
+  background: rgba(28, 25, 39, 0.78);
+}
+
+.world-mail-badge,
+.btn-discoveries-tracker,
+.fairy-btn-subtle {
+  padding: 8px 12px;
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+}
+
+.world-mail-badge {
+  background: rgba(58, 39, 48, 0.82);
+}
+
+.btn-discoveries-tracker {
+  color: var(--c-dusty-pink-light);
+  background: rgba(52, 39, 50, 0.78);
+}
+
+.scene-glade {
+  min-height: calc(100vh - 82px);
+  padding: 20px 24px 44px;
+  justify-content: flex-start;
+}
+
+.post-office-header {
+  margin-top: clamp(22px, 5vh, 56px);
+  margin-bottom: 18px;
+}
+
+.title-ornament {
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+}
+
+.fairy-title {
+  font-size: clamp(2.3rem, 5.2vw, 4rem);
+  text-shadow: 0 4px 24px rgba(0,0,0,0.35);
+}
+
+.fairy-subtitle {
+  margin-top: 8px;
+  font-size: clamp(1.25rem, 2.8vw, 1.8rem);
+}
+
+.cottage-container {
+  margin-top: 4px;
+  min-height: 290px;
+}
+
+.fairy-cottage {
+  filter: drop-shadow(0 18px 24px rgba(4, 5, 12, 0.32));
+}
+
+.cottage-roof {
+  border: 1px solid rgba(177, 187, 134, 0.25);
+}
+
+.glade-surroundings {
+  max-width: 660px;
+  margin-top: -2px;
+  padding: 0 12px;
+}
+
+.flower-patch-left,
+.flower-patch-right {
+  gap: 5px;
+  opacity: 0.84;
+  font-size: 17px;
+}
+
+.mailbox-box {
+  border-radius: 5px;
+  padding: 7px 12px;
+  background: linear-gradient(160deg, #b75d64, #77363f);
+  border-color: rgba(229, 195, 101, 0.78);
+  box-shadow: 0 7px 15px rgba(16, 9, 16, 0.42), inset 0 1px rgba(255,255,255,0.18);
+}
+
+.entrance-cta-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.fairy-enter-btn {
+  border-radius: var(--small-radius);
+  padding: 12px 24px;
+  font-size: 1.12rem;
+}
+
+.scene-interior {
+  max-width: 1180px;
+  padding: 12px 24px 64px;
+}
+
+.interior-room-box {
+  border-radius: var(--paper-radius);
+  border-color: rgba(229, 195, 101, 0.32);
+  background: radial-gradient(circle at 50% 10%, #33282c 0%, #201920 52%, #120f17 100%);
+  padding: 24px;
+}
+
+.post-office-stations {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.station-btn {
+  min-height: 108px;
+  padding: 14px 10px;
+  border-radius: var(--small-radius);
+  border-color: rgba(229, 195, 101, 0.28);
+  background: linear-gradient(160deg, rgba(75, 55, 51, 0.82), rgba(37, 27, 31, 0.96));
+}
+
+.station-btn.active {
+  background: linear-gradient(160deg, rgba(111, 72, 78, 0.86), rgba(55, 35, 46, 0.98));
+}
+
+.station-icon {
+  font-size: 21px;
+  opacity: 0.88;
+}
+
+.writing-desk-stage {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.writing-desk-sanctuary {
+  border-radius: var(--paper-radius);
+  border-color: rgba(229, 195, 101, 0.3);
+  padding: 26px 24px 34px;
+  overflow: visible;
+}
+
+.letter-steps-container {
+  gap: 16px;
+}
+
+.letter-flow-card {
+  border-radius: var(--paper-radius);
+  border-color: rgba(229, 195, 101, 0.24);
+  background: rgba(47, 35, 40, 0.72);
+  padding: 18px;
+}
+
+.letter-flow-title {
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+}
+
+.recipient-select-pill,
+.letter-type-pill {
+  border-radius: var(--small-radius);
+  border-color: rgba(197, 165, 119, 0.52);
+  background: linear-gradient(145deg, rgba(248, 239, 221, 0.98), rgba(218, 197, 166, 0.96));
+  color: var(--ink);
+  box-shadow: 0 5px 12px rgba(11, 8, 13, 0.2), inset 0 1px rgba(255,255,255,0.65);
+}
+
+.recipient-select-pill:hover,
+.letter-type-pill:hover,
+.recipient-select-pill.active,
+.letter-type-pill.active {
+  color: var(--ink);
+  border-color: var(--warm-gold);
+  background: linear-gradient(145deg, #fff7e8, #e5cba8);
+  box-shadow: 0 8px 16px rgba(11, 8, 13, 0.28), 0 0 14px rgba(229, 195, 101, 0.2);
+  transform: translateY(-2px);
+}
+
+.recipient-select-pill {
+  min-height: 52px;
+  padding: 8px 13px;
+}
+
+.letter-type-pill {
+  min-height: 50px;
+  padding: 10px 13px;
+}
+
+.fairy-input,
+.balcony-input,
+.paper-sender-input {
+  border: 1px solid rgba(197, 165, 119, 0.55);
+  border-radius: var(--small-radius);
+  background: rgba(250, 242, 226, 0.92);
+  color: var(--ink);
+  box-shadow: inset 0 2px 5px rgba(56, 35, 25, 0.08);
+}
+
+.fairy-input {
+  width: 100%;
+  padding: 11px 13px;
+}
+
+.real-paper-canvas {
+  border-radius: var(--small-radius);
+  box-shadow: var(--paper-shadow), 0 0 0 1px rgba(255,255,255,0.22) inset;
+}
+
+.paper-customization-bar {
+  border-radius: var(--small-radius);
+  background: rgba(31, 23, 28, 0.78);
+}
+
+.swatch-btn {
+  border-radius: 4px;
+  padding: 6px 9px;
+}
+
+@media (max-width: 900px) {
+  .post-office-stations {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .fairy-topbar {
+    padding: 12px 14px 8px;
+  }
+
+  .fairy-actions {
+    justify-content: stretch;
+  }
+
+  .fairy-actions > * {
+    flex: 1 1 calc(50% - 8px);
+  }
+
+  .scene-glade {
+    min-height: calc(100vh - 140px);
+    padding-inline: 12px;
+  }
+
+  .post-office-header {
+    margin-top: 20px;
+  }
+
+  .cottage-container {
+    min-height: 240px;
+    transform: scale(0.82);
+    margin-bottom: -28px;
+  }
+
+  .glade-surroundings {
+    padding-inline: 0;
+  }
+
+  .flower-patch-left,
+  .flower-patch-right {
+    display: none;
+  }
+
+  .entrance-cta-wrapper {
+    width: 100%;
+  }
+
+  .entrance-cta-wrapper > button {
+    width: min(100%, 320px);
+  }
+
+  .scene-interior {
+    padding-inline: 10px;
+  }
+
+  .interior-room-box {
+    padding: 16px 12px;
+  }
+
+  .post-office-stations {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .station-btn {
+    min-height: 88px;
+  }
+}
+
+/* Accessibility & Focus states */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--c-fairy-gold);
+  outline-offset: 2px;
+}
+
+/* ========================================================================= */
+/* PHASE 2: THE MOON'S APARTMENT - LIVING OBJECTS & STATIONS                  */
+/* ========================================================================= */
+
+/* Thought Bubble Pop-in */
+.moon-thought-bubble {
+  position: absolute;
+  width: 290px;
+  background: #fdfaf3;
+  border: 1.5px solid #d4ae45;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 15px rgba(229, 195, 101, 0.3);
+  z-index: 150;
+  animation: floatUp 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+  pointer-events: auto;
+}
+.thought-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #d5c3ab;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+.thought-crest {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: #795548;
+  font-weight: 600;
+}
+.thought-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #8c7365;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.thought-body {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: #3e2d27;
+}
+
+/* Dimmed Room state when desk lamp is turned off */
+.interior-room-box.dimmed-lights {
+  background: linear-gradient(180deg, #121524 0%, #161a29 100%) !important;
+  box-shadow: inset 0 0 80px rgba(5, 7, 15, 0.9), 0 0 40px rgba(60, 80, 140, 0.2) !important;
+}
+
+/* Topbar Discoveries Button */
+.btn-discoveries-tracker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(229, 195, 101, 0.12);
+  border: 1px solid rgba(229, 195, 101, 0.45);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: var(--c-fairy-gold);
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.btn-discoveries-tracker:hover {
+  background: rgba(229, 195, 101, 0.25);
+  border-color: var(--c-fairy-gold);
+  transform: translateY(-1px);
+}
+.disc-badge-pill {
+  background: var(--c-fairy-gold);
+  color: #2a201b;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+
+/* Desk Station Multi-Column Layout */
+.desk-stage-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Interactive Objects Tray on the Desk */
+.desk-curios-shelf {
+  background: rgba(30, 24, 28, 0.7);
+  border: 1.5px solid rgba(212, 174, 69, 0.35);
+  border-radius: var(--radius-cozy);
+  padding: 18px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.curios-shelf-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--c-fairy-gold);
+  border-bottom: 1px dashed rgba(212, 174, 69, 0.3);
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Interactive Desk Items Grid */
+.curios-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.curio-item-box {
+  background: linear-gradient(145deg, rgba(84, 61, 52, 0.72), rgba(42, 29, 29, 0.92));
+  border: 1px solid rgba(197, 157, 105, 0.38);
+  border-radius: var(--small-radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.curio-item-box:hover {
+  background: linear-gradient(145deg, rgba(111, 78, 63, 0.82), rgba(53, 35, 35, 0.96));
+  border-color: var(--c-fairy-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+.curio-icon-wrap {
+  font-size: 26px;
+  margin-bottom: 6px;
+  position: relative;
+}
+.curio-name {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-warm-cream);
+}
+.curio-sub {
+  font-size: 0.7rem;
+  color: #c4b5a5;
+  margin-top: 2px;
+}
+
+/* Teacup Steam Crescent Effect */
+.teacup-steam-crescent {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: rgba(245, 230, 200, 0.9);
+  opacity: 0;
+  transition: all 1.8s cubic-bezier(0.1, 0.8, 0.3, 1);
+  pointer-events: none;
+}
+.teacup-steam-crescent.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-22px) scale(1.4);
+}
+
+/* Stardust Ink Drop on Blotter */
+.stardust-ink-drop {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, #ffe391 10%, #2a1f28 70%);
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ffe391, 0 0 20px #e5c365;
+  animation: inkBloom 3.5s forwards ease-out;
+  pointer-events: none;
+}
+@keyframes inkBloom {
+  0% { transform: scale(0.3); opacity: 0; }
+  25% { transform: scale(1.6); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Desk Framed Photos */
+.desk-photos-strip {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+.desk-photo-frame {
+  flex: 1;
+  background: #231b20;
+  border: 1.5px solid #a88a50;
+  border-radius: var(--small-radius);
+  padding: 8px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.desk-photo-frame:hover {
+  transform: scale(1.05);
+  border-color: #ffd875;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.desk-photo-frame span {
+  font-size: 20px;
+  display: block;
+}
+.desk-photo-label {
+  font-size: 0.68rem;
+  color: #d1bead;
+  margin-top: 4px;
+  font-family: var(--font-sans);
+}
+
+/* The Locked Drawer in Desk */
+.locked-drawer-box {
+  background: linear-gradient(145deg, #241a18 0%, #171110 100%);
+  border: 1.5px solid #8e6c38;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
+}
+.locked-drawer-box:hover {
+  border-color: var(--c-fairy-gold);
+  background: linear-gradient(145deg, #302320 0%, #1e1615 100%);
+}
+.locked-drawer-box.unlocked {
+  border-color: #55a868;
+}
+.drawer-keyhole {
+  font-size: 20px;
+}
+
+.station-icon,
+.curio-icon-wrap,
+.desk-photo-frame > span,
+.desk-prop-icon,
+.mail-badge-icon,
+.key-icon,
+.drawer-keyhole,
+.room-stamp-crest {
+  filter: grayscale(0.45) sepia(0.22) saturate(0.8);
+}
+
+.curio-icon-wrap,
+.desk-photo-frame > span {
+  opacity: 0.9;
+}
+.drawer-info h5 {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--c-warm-cream);
+}
+.drawer-info p {
+  font-size: 0.72rem;
+  color: #b59f8c;
+}
+
+/* Clock Pendulum Click Area (Key finding) */
+.clock-pendulum-interactive {
+  cursor: pointer;
+  position: relative;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.clock-pendulum-interactive:hover {
+  background: rgba(229, 195, 101, 0.15);
+}
+
+/* ========================================================================= */
+/* THE BOOKSHELF STATION                                                     */
+/* ========================================================================= */
+.bookshelf-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.bookshelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+.book-spine-card {
+  background: rgba(36, 29, 34, 0.85);
+  border: 1px solid rgba(229, 195, 101, 0.2);
+  border-left: 6px solid #4a5568;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+.book-spine-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(229, 195, 101, 0.6);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.5), 0 0 15px rgba(229, 195, 101, 0.2);
+}
+.book-spine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.book-category-tag {
+  font-size: 0.72rem;
+  background: rgba(229, 195, 101, 0.15);
+  color: var(--c-fairy-gold);
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.book-spine-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--c-warm-cream);
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+.book-spine-author {
+  font-size: 0.8rem;
+  color: #c9baa8;
+  margin-bottom: 12px;
+}
+.book-spine-quote {
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: #dfcdb7;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+.btn-inspect-book {
+  background: transparent;
+  border: none;
+  color: var(--c-fairy-gold);
+  font-size: 0.85rem;
+  font-family: var(--font-serif);
+  text-align: right;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.btn-inspect-book:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ========================================================================= */
+/* THE JOURNAL STATION                                                       */
+/* ========================================================================= */
+.journal-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.journal-book-opened {
+  background: #fbf5e8;
+  border: 2px solid #d4ae45;
+  border-radius: 12px;
+  padding: 32px 40px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.5), inset 0 0 40px rgba(180, 140, 90, 0.15);
+  position: relative;
+  min-height: 380px;
+  color: #3b2820;
+}
+.journal-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #d5c3ab;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+.journal-date {
+  font-size: 0.85rem;
+  color: #8c7365;
+  letter-spacing: 0.5px;
+}
+.journal-mood-tag {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  background: #ecdcc8;
+  padding: 3px 10px;
+  border-radius: 12px;
+  color: #634538;
+}
+.journal-entry-heading {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: #3b2820;
+  margin-bottom: 16px;
+}
+.journal-entry-body {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  line-height: 1.7;
+  color: #2f211c;
+  white-space: pre-line;
+}
+.journal-nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed #d5c3ab;
+}
+.journal-nav-btn {
+  background: #4a342c;
+  border: 1px solid #755546;
+  color: #faf5ea;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.journal-nav-btn:hover {
+  background: #63473b;
+  transform: translateY(-1px);
+}
+.journal-pills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.journal-pill-btn {
+  background: rgba(45, 36, 42, 0.7);
+  border: 1px solid rgba(229, 195, 101, 0.25);
+  color: #d8c3b4;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.journal-pill-btn:hover, .journal-pill-btn.active {
+  background: rgba(229, 195, 101, 0.2);
+  border-color: var(--c-fairy-gold);
+  color: #fff;
+}
+
+/* ========================================================================= */
+/* THE DREAM JARS STATION                                                    */
+/* ========================================================================= */
+.dream-jars-shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  padding: 24px;
+  background: rgba(22, 17, 24, 0.8);
+  border: 1.5px solid rgba(212, 174, 69, 0.3);
+  border-radius: var(--radius-cozy);
+}
+.dream-jar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 12px;
+}
+.dream-jar-item:hover {
+  transform: translateY(-6px);
+}
+.jar-glass-vessel {
+  width: 70px;
+  height: 100px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px 16px 24px 24px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.jar-cork-lid {
+  position: absolute;
+  top: -8px;
+  width: 44px;
+  height: 12px;
+  background: #a88358;
+  border-radius: 4px;
+  border: 1px solid #755535;
+}
+.jar-dream-essence {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  filter: blur(8px);
+  animation: pulseGlow 2.5s infinite alternate ease-in-out;
+}
+.jar-stardust-swirl {
+  position: absolute;
+  font-size: 14px;
+  animation: rotateSwirl 8s infinite linear;
+}
+@keyframes rotateSwirl {
+  0% { transform: rotate(0deg) scale(0.8); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(0.8); }
+}
+.jar-label-tag {
+  margin-top: 10px;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--c-warm-cream);
+  text-align: center;
+}
+
+/* ========================================================================= */
+/* THE TELESCOPE STATION                                                     */
+/* ========================================================================= */
+.telescope-stage {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: center;
+}
+.telescope-view-wrapper {
+  background: #080a12;
+  border: 3px solid #b38b37;
+  border-radius: var(--radius-cozy);
+  box-shadow: 0 0 35px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,0.9);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#telescope-canvas {
+  width: 100%;
+  max-width: 500px;
+  height: 420px;
+  display: block;
+  cursor: crosshair;
+}
+.telescope-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sighting-card {
+  background: rgba(35, 27, 33, 0.85);
+  border: 1px solid rgba(229, 195, 101, 0.25);
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.sighting-card:hover {
+  border-color: var(--c-fairy-gold);
+  background: rgba(50, 39, 48, 0.95);
+  transform: translateX(3px);
+}
+.sighting-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.sighting-icon {
+  font-size: 22px;
+}
+.sighting-header h4 {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--c-warm-cream);
+}
+.sighting-category {
+  font-size: 0.72rem;
+  color: var(--c-fairy-gold);
+}
+.sighting-desc {
+  font-size: 0.8rem;
+  color: #ccc;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.sighting-quote {
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  color: #dfcdb7;
+}
+.focused-sighting-box {
+  background: rgba(229, 195, 101, 0.12);
+  border: 1.5px solid var(--c-fairy-gold);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.focus-icon {
+  font-size: 28px;
+}
+.focus-info h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--c-fairy-gold);
+  margin-bottom: 4px;
+}
+.focus-quote {
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  color: var(--c-warm-cream);
+  margin-bottom: 6px;
+}
+.focus-detail {
+  font-size: 0.82rem;
+  color: #d1bead;
+  line-height: 1.4;
+}
+
+/* ========================================================================= */
+/* THE BALCONY STATION & WISHES                                              */
+/* ========================================================================= */
+.balcony-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.balcony-viewport {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  border-radius: var(--radius-cozy);
+  overflow: hidden;
+  border: 2px solid rgba(212, 174, 69, 0.4);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+#balcony-sky-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.balcony-rail-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: repeating-linear-gradient(90deg, #2a2228 0px, #2a2228 12px, transparent 12px, transparent 36px);
+  border-top: 5px solid #6b5138;
+}
+.balcony-whisper-card {
+  background: rgba(28, 22, 28, 0.85);
+  border: 1.5px solid rgba(229, 195, 101, 0.35);
+  border-radius: var(--radius-cozy);
+  padding: 24px;
+}
+.balcony-wish-input-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+.balcony-input {
+  flex: 1;
+  background: rgba(18, 14, 18, 0.8);
+  border: 1px solid rgba(212, 174, 69, 0.4);
+  border-radius: 20px;
+  padding: 10px 18px;
+  color: var(--c-warm-cream);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+}
+.btn-whisper-wish {
+  background: linear-gradient(135deg, #7c4d5f 0%, #52313e 100%);
+  border: 1px solid var(--c-fairy-gold);
+  border-radius: 20px;
+  padding: 10px 22px;
+  color: var(--c-warm-cream);
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn-whisper-wish:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(229, 195, 101, 0.3);
+}
+.balcony-confirmation {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--c-fairy-gold);
+  margin-top: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.balcony-confirmation.visible {
+  opacity: 1;
+}
+.kept-wish-card {
+  background: rgba(45, 36, 42, 0.6);
+  border-left: 3px solid var(--c-fairy-gold);
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.kept-wish-text {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--c-warm-cream);
+}
+.kept-wish-date {
+  font-size: 0.72rem;
+  color: #bfaea2;
+}
+
+/* ========================================================================= */
+/* MODALS: BOOK INSPECTION, DREAMS, UNLOCKED DRAWER, DISCOVERIES             */
+/* ========================================================================= */
+.modal-custom-sheet {
+  background: #fbf6ec;
+  border: 2px solid #d4ae45;
+  border-radius: 14px;
+  padding: 32px;
+  max-width: 550px;
+  width: 90%;
+  position: relative;
+  color: #3b2923;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  animation: modalPopIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+.modal-book-notes-box {
+  background: #f1e4d0;
+  border-left: 4px solid #b38b37;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  font-style: italic;
+  margin: 14px 0;
+  color: #523a2d;
+}
+.modal-secret-clue-box {
+  background: #ffeac2;
+  border: 1.5px dashed #c47c1b;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: #633b00;
+  margin: 14px 0;
+}
+.modal-dream-orb-display {
+  display: flex;
+  justify-content: center;
+  margin: 14px 0;
+}
+.modal-dream-orb {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #ffd166;
+  filter: blur(1px);
+}
+
+/* Discovery Log Sections */
+.discovery-section-block {
+  margin-bottom: 16px;
+}
+.discovery-section-block h4 {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: #5a3c2e;
+  border-bottom: 1px dashed #d5c3ab;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+.discovery-tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.disc-tag {
+  background: #efe4d3;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #433026;
+  line-height: 1.35;
+}
+.disc-tag.secret-tag {
+  background: #fae4c3;
+  border: 1px solid #d4ae45;
+  color: #5c3b00;
+}
+.disc-empty {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #8c7365;
+}
+
+/* ========================================================================= */
+/* CENTERPIECE: THE MIDNIGHT WRITING DESK EXPERIENCE                         */
+/* ========================================================================= */
+
+/* The Full Writing Desk Sanctuary */
+.writing-desk-sanctuary {
+  position: relative;
+  background: radial-gradient(circle at 50% 20%, #2e2226 0%, #1c1518 80%, #130e11 100%);
+  border: 2px solid rgba(212, 174, 69, 0.4);
+  border-radius: var(--radius-cozy);
+  padding: 30px 28px 40px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.7), inset 0 0 70px rgba(0, 0, 0, 0.55);
+  overflow: visible;
+}
+
+/* Moonlight stream through the vintage arched window */
+.desk-moonlight-window {
+  position: absolute;
+  top: 0;
+  right: 6%;
+  width: 140px;
+  height: 180px;
+  border-radius: 70px 70px 0 0;
+  border: 4px solid #4a382e;
+  background: radial-gradient(circle at 50% 40%, #2b3954 0%, #151b2a 80%);
+  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.2), 0 0 35px rgba(180, 210, 255, 0.25);
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.window-glass-moon {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 32px;
+  height: 32px;
+  background: #fdfaf0;
+  border-radius: 50%;
+  box-shadow: 0 0 16px #fff, 0 0 30px rgba(245, 230, 180, 0.7);
+}
+.window-mullions {
+  position: absolute;
+  inset: 0;
+  border-bottom: 3px solid #4a382e;
+}
+.window-mullions::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #4a382e;
+  transform: translateX(-50%);
+}
+.moonlight-beam-overlay {
+  position: absolute;
+  top: 10px;
+  right: 15%;
+  width: 280px;
+  height: 480px;
+  background: linear-gradient(135deg, rgba(200, 225, 255, 0.14) 0%, rgba(200, 225, 255, 0.04) 50%, transparent 80%);
+  transform-origin: top right;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Desk Still-Life Atmosphere Strip (tea, candle, pen, flowers, envelope) */
+.desk-still-life-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: rgba(22, 17, 21, 0.7);
+  border: 1px solid rgba(229, 195, 101, 0.25);
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 3;
+}
+.desk-prop-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.desk-prop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #dfcdbf;
+}
+.desk-prop-icon {
+  font-size: 24px;
+}
+.desk-tea-steam {
+  position: relative;
+  display: inline-block;
+}
+.desk-tea-steam::before {
+  content: '♨️';
+  position: absolute;
+  top: -14px;
+  left: 2px;
+  font-size: 14px;
+  opacity: 0.65;
+  animation: gentleDrift 2.5s infinite ease-in-out;
+}
+
+/* Step Headers & In-World Instructions */
+.desk-intimate-header {
+  text-align: center;
+  margin-bottom: 26px;
+  position: relative;
+  z-index: 3;
+}
+.desk-epigraph {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  color: var(--c-fairy-gold);
+  margin-bottom: 4px;
+  text-shadow: 0 0 12px rgba(229, 195, 101, 0.25);
+}
+.desk-sub-epigraph {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: #d1bfb2;
+  letter-spacing: 0.5px;
+}
+
+/* Letter Steps Wizard Nav / Progress Pills */
+.letter-steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  z-index: 3;
+}
+
+/* Step 1: Who is this letter for? */
+.letter-flow-card {
+  background: rgba(36, 28, 33, 0.85);
+  border: 1.5px solid rgba(229, 195, 101, 0.3);
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.letter-flow-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--c-warm-cream);
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(229, 195, 101, 0.25);
+  padding-bottom: 8px;
+}
+.letter-flow-step-num {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--c-fairy-gold);
+  color: #241a18;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* Recipient Pills Strip */
+.recipients-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.recipient-select-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(50, 40, 46, 0.7);
+  border: 1px solid rgba(229, 195, 101, 0.3);
+  border-radius: 20px;
+  padding: 7px 15px;
+  color: var(--c-warm-cream);
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.recipient-select-pill:hover {
+  background: rgba(75, 58, 68, 0.9);
+  border-color: var(--c-fairy-gold);
+  transform: translateY(-1px);
+}
+.recipient-select-pill.active {
+  background: linear-gradient(135deg, #7c4d5f 0%, #52313e 100%);
+  border-color: var(--c-fairy-gold);
+  box-shadow: 0 0 14px rgba(229, 195, 101, 0.35);
+  color: #fff;
+}
+.recipient-custom-field-box {
+  margin-top: 12px;
+  display: none;
+}
+.recipient-custom-field-box.active {
+  display: block;
+}
+
+/* Step 2: Whimsical Letter Types (9 options) */
+.letter-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.letter-type-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(48, 38, 44, 0.8);
+  border: 1px solid rgba(229, 195, 101, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #e5d7cc;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.letter-type-pill:hover {
+  background: rgba(70, 54, 63, 0.95);
+  border-color: var(--c-fairy-gold);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.letter-type-pill.active {
+  background: linear-gradient(135deg, #573a46 0%, #3e2632 100%);
+  border-color: var(--c-fairy-gold);
+  color: #fdf5ea;
+  box-shadow: 0 0 12px rgba(229, 195, 101, 0.3);
+}
+.letter-type-pill .type-icon {
+  font-size: 18px;
+}
+
+/* Step 3: Paper Customization Bar (Paper, Envelope, Stamp, Wax) */
+.paper-customization-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(28, 22, 26, 0.85);
+  border: 1px solid rgba(229, 195, 101, 0.3);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 16px;
+}
+.customization-section-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--c-fairy-gold);
+  margin-bottom: 6px;
+  display: block;
+  font-weight: 600;
+}
+.paper-tone-swatches, .envelope-swatches, .stamp-swatches, .wax-swatches {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.swatch-btn {
+  border: 1.5px solid rgba(229, 195, 101, 0.35);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 0.78rem;
+  font-family: var(--font-serif);
+  cursor: pointer;
+  background: rgba(45, 36, 42, 0.6);
+  color: #dfcdbf;
+  transition: all 0.2s ease;
+}
+.swatch-btn:hover, .swatch-btn.active {
+  border-color: var(--c-fairy-gold);
+  background: rgba(229, 195, 101, 0.2);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ========================================================================= */
+/* THE REAL WRITING PAPER SURFACE                                            */
+/* ========================================================================= */
+
+.real-paper-canvas {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  min-height: 480px;
+  border-radius: 6px;
+  padding: 40px 48px 36px;
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.4s ease, border 0.4s ease;
+}
+
+/* Paper Tints */
+.real-paper-canvas.paper-cream {
+  background: #fcf8f0;
+  border: 1px solid #ebd9c0;
+  color: #2b1f1c;
+}
+.real-paper-canvas.paper-pale-pink {
+  background: #fcf2f4;
+  border: 1px solid #ebd4d7;
+  color: #351c22;
+}
+.real-paper-canvas.paper-lavender {
+  background: #f4eff9;
+  border: 1px solid #ddcee8;
+  color: #291b34;
+}
+.real-paper-canvas.paper-aged {
+  background: #f2e2cb;
+  border: 1px solid #d8be98;
+  color: #322118;
+}
+
+/* Paper Header with Stamp & Recipient Salutation */
+.paper-top-salutation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  border-bottom: 1px dashed rgba(160, 130, 100, 0.3);
+  padding-bottom: 16px;
+}
+.paper-salutation-text {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: inherit;
+  line-height: 1.3;
+}
+.paper-salutation-sub {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: #7d6556;
+  margin-top: 2px;
+}
+.paper-chosen-stamp-display {
+  width: 44px;
+  height: 52px;
+  border: 1.5px dashed #b59560;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Handwritten Textarea: Clean, natural, feels like ink on paper */
+.real-paper-textarea {
+  width: 100%;
+  min-height: 280px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Caveat', 'Marck Script', cursive;
+  font-size: 1.55rem;
+  line-height: 1.85;
+  color: inherit;
+  resize: vertical;
+  caret-color: #593540;
+  padding: 0;
+  box-shadow: none;
+}
+.real-paper-textarea::placeholder {
+  color: rgba(90, 70, 75, 0.45);
+  font-style: italic;
+}
+
+/* In-World Word Counter & Sender Row */
+.paper-bottom-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(160, 130, 100, 0.3);
+}
+.in-world-word-counter {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: #70584b;
+}
+.paper-sender-signoff {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: #5c4538;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.paper-sender-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(160, 130, 100, 0.5);
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  color: inherit;
+  padding: 0 4px;
+  outline: none;
+  width: 150px;
+}
+
+/* Paper Bottom Controls: Erase & Fold Button */
+.paper-ritual-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 26px;
+  padding-top: 18px;
+}
+.btn-paper-erase {
+  background: transparent;
+  border: 1px solid rgba(160, 130, 100, 0.4);
+  color: #6d5446;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-paper-erase:hover {
+  border-color: #8c424e;
+  color: #8c424e;
+  background: rgba(140, 66, 78, 0.08);
+}
+.btn-fold-letter-primary {
+  background: linear-gradient(135deg, #7c4d5f 0%, #4e2f3d 100%);
+  border: 1.5px solid var(--c-fairy-gold);
+  color: var(--c-warm-cream);
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 15px rgba(229, 195, 101, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-fold-letter-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45), 0 0 22px rgba(229, 195, 101, 0.45);
+}
+
+/* ========================================================================= */
+/* FOLDING, SEALING & NIGHT-SENDING STAGE                                    */
+/* ========================================================================= */
+
+.folding-ritual-stage {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 440px;
+  position: relative;
+  z-index: 5;
+}
+.folding-ritual-stage.active {
+  display: flex;
+}
+
+/* The Envelope Container on the Desk */
+.ritual-envelope-wrapper {
+  position: relative;
+  width: 380px;
+  height: 250px;
+  background: #fbf5e6;
+  border: 1.5px solid #d4ae45;
+  border-radius: 8px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(180, 140, 90, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  transition: all 0.5s ease;
+  padding: 20px;
+  text-align: center;
+}
+.ritual-envelope-wrapper.env-linen {
+  background: #fcf9f2;
+  border-color: #d8c29d;
+}
+.ritual-envelope-wrapper.env-rose {
+  background: #f8ecef;
+  border-color: #dca8b2;
+}
+.ritual-envelope-wrapper.env-lavender {
+  background: #ede6f5;
+  border-color: #beabd1;
+}
+.ritual-envelope-wrapper.env-aged {
+  background: #ebdcbe;
+  border-color: #af8d5e;
+}
+
+/* Envelope Address Plate */
+.envelope-recipient-badge {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: #3b2820;
+  margin-top: 10px;
+}
+.envelope-type-badge {
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+  color: #7a5e4d;
+}
+.envelope-postage-stamp {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 52px;
+  border: 1.5px dashed #b59560;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* The Wax Seal on the Flap */
+.envelope-wax-seal-spot {
+  position: absolute;
+  bottom: -20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.envelope-wax-seal-spot.wax-rose {
+  background: radial-gradient(circle, #a13d4b 0%, #68222b 100%);
+  color: #ffe6ea;
+}
+.envelope-wax-seal-spot.wax-gold {
+  background: radial-gradient(circle, #e5c365 0%, #9e7a27 100%);
+  color: #2b1f1d;
+}
+.envelope-wax-seal-spot.wax-moss {
+  background: radial-gradient(circle, #4d7a5a 0%, #294732 100%);
+  color: #e5faeb;
+}
+.envelope-wax-seal-spot.wax-twilight {
+  background: radial-gradient(circle, #44517d 0%, #202742 100%);
+  color: #e2e8ff;
+}
+
+/* Ritual Instruction Prompts */
+.ritual-instruction-text {
+  font-family: var(--font-hand);
+  font-size: 1.55rem;
+  color: var(--c-fairy-gold);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+/* Send Confirmation Card (after flight) */
+.letter-sent-confirmation-box {
+  display: none;
+  background: rgba(38, 29, 35, 0.9);
+  border: 1.5px solid var(--c-fairy-gold);
+  border-radius: var(--radius-cozy);
+  padding: 30px;
+  text-align: center;
+  max-width: 520px;
+  margin: 0 auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(229, 195, 101, 0.3);
+  animation: modalPopIn 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+.letter-sent-confirmation-box.active {
+  display: block;
+}
+.sent-confirmation-quote {
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  line-height: 1.55;
+  color: var(--c-warm-cream);
+  margin: 14px 0 20px;
+}
+.confirmation-actions-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ========================================================================= */
+/* THE MAGICAL MAILBOX EXPERIENCE STYLES                                     */
+/* ========================================================================= */
+
+/* Topbar In-World Mail Badge */
+.world-mail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  background: rgba(36, 28, 42, 0.85);
+  border: 1px solid rgba(229, 195, 101, 0.45);
+  border-radius: 20px;
+  color: var(--c-warm-cream);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.world-mail-badge:hover {
+  background: rgba(55, 42, 64, 0.95);
+  border-color: var(--c-fairy-gold);
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(229, 195, 101, 0.4);
+}
+.mail-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-fairy-gold);
+  box-shadow: 0 0 8px #f5d475;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+.mail-badge-icon {
+  font-size: 14px;
+}
+.mail-badge-label {
+  letter-spacing: 0.02em;
+}
+
+/* Mailbox Visual Shrine */
+.mailbox-visual-shrine {
+  position: relative;
+  background: radial-gradient(circle at 50% 30%, rgba(42, 33, 44, 0.95) 0%, rgba(20, 16, 24, 0.98) 100%);
+  border: 1.5px solid rgba(212, 174, 69, 0.35);
+  border-radius: var(--radius-cozy);
+  padding: 36px 28px 28px;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 30px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.5s ease;
+}
+.mailbox-crest {
+  font-size: 42px;
+  display: inline-block;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.mailbox-crest:hover {
+  transform: scale(1.1) rotate(6deg);
+}
+.mailbox-shrine-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  color: var(--c-warm-cream);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.mailbox-shrine-desc {
+  font-size: 0.92rem;
+  color: #cbbab0;
+  max-width: 480px;
+  margin: 0 auto 18px;
+  line-height: 1.45;
+}
+
+/* In-World "You Have Mail" Banner */
+.mailbox-inworld-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(48, 36, 38, 0.88);
+  border: 1px solid rgba(229, 195, 101, 0.5);
+  border-radius: 12px;
+  padding: 10px 18px;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 0 10px rgba(229, 195, 101, 0.1);
+  text-align: left;
+  animation: mailBadgeGlow 3s infinite ease-in-out;
+}
+.mailbox-inworld-notice .notice-icon {
+  font-size: 24px;
+}
+.mailbox-inworld-notice .notice-content {
+  display: flex;
+  flex-direction: column;
+}
+.mailbox-inworld-notice .notice-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--c-fairy-gold);
+  letter-spacing: 0.02em;
+}
+.mailbox-inworld-notice .notice-subtitle {
+  font-size: 0.78rem;
+  color: #dfcebf;
+}
+
+/* Sensory Line for Rare Events */
+.mailbox-sensory-status {
+  margin: 6px auto 18px;
+  font-family: var(--font-hand);
+  font-size: 1.22rem;
+  color: #e2cbb8;
+  font-style: italic;
+  min-height: 28px;
+  transition: all 0.4s ease;
+}
+
+/* Interactive Postal Slot */
+.mailbox-slot-interactive {
+  position: relative;
+  width: 280px;
+  height: 54px;
+  margin: 0 auto 20px;
+  background: linear-gradient(180deg, #594532 0%, #302319 100%);
+  border: 2px solid #b89347;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8), 0 4px 14px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+.mailbox-slot-interactive:hover {
+  border-color: #f0cb69;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.8), 0 0 16px rgba(229, 195, 101, 0.4);
+}
+.slot-brass-plate {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  color: #e5c365;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+.slot-envelope-anim-marker {
+  position: absolute;
+  top: 10px;
+  width: 24px;
+  height: 16px;
+  background: #fbf5e6;
+  border: 1px solid #b59560;
+  border-radius: 2px;
+  display: none;
+}
+
+/* Mailbox Actions Bar */
+.mailbox-actions-bar {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.btn-unexpected-letter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(229, 195, 101, 0.22) 0%, rgba(181, 165, 196, 0.28) 100%);
+  border: 1.5px solid var(--c-fairy-gold);
+  border-radius: 24px;
+  padding: 10px 22px;
+  color: var(--c-warm-cream);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+.btn-unexpected-letter:hover {
+  background: linear-gradient(135deg, rgba(229, 195, 101, 0.38) 0%, rgba(181, 165, 196, 0.45) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(229, 195, 101, 0.45);
+}
+.btn-unexpected-letter .btn-icon {
+  font-size: 18px;
+}
+.btn-mailbox-write {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(43, 54, 42, 0.85);
+  border: 1.5px solid var(--c-sage-green);
+  border-radius: 24px;
+  padding: 10px 22px;
+  color: var(--c-warm-cream);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-mailbox-write:hover {
+  background: rgba(58, 74, 57, 0.95);
+  border-color: #afd4a7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(137, 156, 133, 0.4);
+}
+
+/* Mailbox Stats Row */
+.mailbox-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  border-top: 1px dashed rgba(212, 174, 69, 0.25);
+  padding-top: 18px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stat-item .stat-num {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--c-fairy-gold);
+  font-weight: 600;
+}
+.stat-item .stat-tag {
+  font-size: 0.76rem;
+  color: #bfaca0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* Mailbox Tabs Nav */
+.mailbox-tabs-nav {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 auto 24px;
+  max-width: 600px;
+}
+.mailbox-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(32, 25, 36, 0.8);
+  border: 1.5px solid rgba(229, 195, 101, 0.25);
+  border-radius: 14px;
+  color: #c9b6a7;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.mailbox-tab-btn:hover {
+  background: rgba(45, 35, 52, 0.9);
+  color: var(--c-warm-cream);
+  border-color: rgba(229, 195, 101, 0.5);
+}
+.mailbox-tab-btn.active {
+  background: linear-gradient(180deg, rgba(58, 43, 62, 0.95) 0%, rgba(38, 28, 42, 0.95) 100%);
+  border-color: var(--c-fairy-gold);
+  color: var(--c-warm-cream);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(229, 195, 101, 0.2);
+}
+.tab-count-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  background: rgba(229, 195, 101, 0.2);
+  border: 1px solid rgba(229, 195, 101, 0.4);
+  border-radius: 12px;
+  font-size: 0.78rem;
+  color: var(--c-fairy-gold);
+}
+.mailbox-tab-btn.active .tab-count-pill {
+  background: var(--c-fairy-gold);
+  color: #2b1f1a;
+  font-weight: 700;
+}
+
+/* Mailbox Sections */
+.mailbox-section {
+  display: none;
+  animation: fadeIn 0.35s ease forwards;
+}
+.mailbox-section.active {
+  display: block;
+}
+.mailbox-section-intro {
+  text-align: center;
+  max-width: 580px;
+  margin: 0 auto 22px;
+  font-size: 0.9rem;
+  color: #cbbab0;
+  line-height: 1.45;
+}
+
+/* Letters For You Grid & My Letters Grid */
+.letters-for-you-grid,
+.my-letters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 22px;
+  padding-bottom: 40px;
+}
+
+/* Individual Letter Card */
+.fairy-letter-card {
+  position: relative;
+  background: #fbf5e8;
+  border: 1.5px solid #d4ae45;
+  border-radius: 12px;
+  padding: 22px 20px 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: #3b2820;
+  overflow: hidden;
+  cursor: pointer;
+}
+.fairy-letter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 195, 101, 0.3);
+  border-color: #eed686;
+}
+
+/* Paper Themes for Cards & Modal */
+.fairy-letter-card.theme-moonlight,
+.modal-parchment-sheet.theme-moonlight {
+  background: linear-gradient(145deg, #f4f8fc 0%, #e5eef7 100%);
+  border-color: #a7bed3;
+  color: #213344;
+}
+.fairy-letter-card.theme-pink,
+.modal-parchment-sheet.theme-pink {
+  background: linear-gradient(145deg, #fbf2f4 0%, #f4e1e4 100%);
+  border-color: #d8a4a6;
+  color: #442226;
+}
+.fairy-letter-card.theme-cream,
+.modal-parchment-sheet.theme-cream {
+  background: linear-gradient(145deg, #fcf9f0 0%, #f5ecdb 100%);
+  border-color: #d6be96;
+  color: #3f2f24;
+}
+.fairy-letter-card.theme-sage,
+.modal-parchment-sheet.theme-sage {
+  background: linear-gradient(145deg, #f3f7f2 0%, #e2ece0 100%);
+  border-color: #9cb197;
+  color: #263824;
+}
+.fairy-letter-card.theme-ocean,
+.modal-parchment-sheet.theme-ocean {
+  background: linear-gradient(145deg, #f1f7f9 0%, #dbeaf0 100%);
+  border-color: #90b4c2;
+  color: #19313b;
+}
+.fairy-letter-card.theme-aged,
+.modal-parchment-sheet.theme-aged {
+  background: linear-gradient(145deg, #f4e8d3 0%, #e6d3b3 100%);
+  border-color: #b59565;
+  color: #402c1a;
+}
+.fairy-letter-card.theme-lavender,
+.modal-parchment-sheet.theme-lavender {
+  background: linear-gradient(145deg, #f6f2fa 0%, #e8dff2 100%);
+  border-color: #bfaed4;
+  color: #382947;
+}
+.fairy-letter-card.theme-hearth,
+.modal-parchment-sheet.theme-hearth {
+  background: linear-gradient(145deg, #faf2e6 0%, #eedfcd 100%);
+  border-color: #cca474;
+  color: #422d1f;
+}
+
+/* Card Header Meta */
+.letter-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  position: relative;
+}
+.letter-card-stamp {
+  width: 38px;
+  height: 44px;
+  border: 1.5px dashed #b59560;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.letter-card-tone-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.letter-card-decor-emblem {
+  font-size: 16px;
+  opacity: 0.75;
+}
+
+/* Card Addressee & Sender */
+.letter-card-recipient {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+.letter-card-sender {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: #634b3e;
+  margin-bottom: 6px;
+}
+.letter-card-date {
+  font-size: 0.74rem;
+  color: #7d6759;
+  margin-bottom: 12px;
+}
+
+/* Card Excerpt Preview */
+.letter-card-preview {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  line-height: 1.45;
+  color: #4b362a;
+  background: rgba(255, 255, 255, 0.35);
+  border-left: 3px solid rgba(181, 149, 96, 0.45);
+  padding: 8px 12px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 16px;
+  font-style: italic;
+  flex: 1;
+}
+
+/* Card Footer Action */
+.letter-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+.letter-envelope-type-tag {
+  font-size: 0.75rem;
+  color: #7a6355;
+}
+.btn-unfold-letter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 16px;
+  padding: 5px 14px;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: inherit;
+}
+.btn-unfold-letter:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: translateX(2px);
+}
+
+/* Empty State Card in My Letters */
+.empty-letters-card {
+  grid-column: 1 / -1;
+  background: rgba(38, 29, 40, 0.85);
+  border: 1.5px dashed rgba(229, 195, 101, 0.4);
+  border-radius: var(--radius-cozy);
+  padding: 40px 24px;
+  text-align: center;
+  max-width: 500px;
+  margin: 20px auto;
+  color: var(--c-warm-cream);
+}
+.empty-letters-card .empty-icon {
+  font-size: 40px;
+  display: inline-block;
+  margin-bottom: 12px;
+  opacity: 0.85;
+}
+.empty-letters-card h4 {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  color: var(--c-fairy-gold);
+  margin-bottom: 8px;
+}
+.empty-letters-card p {
+  font-size: 0.9rem;
+  color: #c9b6aa;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Modal Parchment Sheet Enhancements */
+.modal-letter-header-decor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.18);
+}
+.modal-stamp-symbol {
+  font-size: 32px;
+  line-height: 1;
+}
+.modal-tone-pill {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  font-weight: 500;
+}
+.modal-decor-symbol {
+  font-size: 22px;
+  color: #b59560;
+}
+.modal-letter-titles-block {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.modal-letter-titles-block h3 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: inherit;
+  margin-bottom: 4px;
+}
+.modal-letter-titles-block p {
+  font-size: 0.82rem;
+  opacity: 0.8;
+}
+.modal-letter-content {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-bottom: 24px;
+  min-height: 160px;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.modal-letter-signoff-row {
+  text-align: right;
+  border-top: 1px dashed rgba(0, 0, 0, 0.18);
+  padding-top: 16px;
+}
+.modal-letter-signoff-row span {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+/* Handwriting Typography Styles */
+.font-hand-moon {
+  font-family: 'Marck Script', var(--font-hand), cursive;
+}
+.font-hand-fairy {
+  font-family: var(--font-hand);
+  letter-spacing: 0.04em;
+}
+.font-hand-future {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.35rem !important;
+}
+.font-hand-tree {
+  font-family: var(--font-serif);
+  letter-spacing: 0.02em;
+  line-height: 1.7 !important;
+}
+.font-hand-spidery {
+  font-family: 'Marck Script', cursive;
+  font-size: 1.35rem !important;
+}
+
+/* Flying Fairy Overlay Sprite */
+.fairy-flyby-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+.flying-fairy-sprite {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 28px;
+  filter: drop-shadow(0 0 10px rgba(229, 195, 101, 0.85));
+}
+.flying-fairy-envelope {
+  font-size: 18px;
+  margin-left: -4px;
+}
+.flying-fairy-dust {
+  font-size: 14px;
+  color: #ffeb99;
+  margin-left: 2px;
+  animation: pulseGlow 0.5s infinite alternate;
+}
+
+/* ==========================================================================
+   WHIMSICAL NOSTALGIC DETAILS & EASTER EGGS
+   Soft, feminine, nostalgic, handcrafted feel
+   ========================================================================== */
+
+/* Glade Moon Interactivity */
+.the-moon {
+  cursor: pointer;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+.the-moon:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 35px rgba(254, 246, 226, 0.95)) drop-shadow(0 0 60px rgba(229, 195, 101, 0.4));
+}
+
+/* Lone Celestial Star */
+.easter-egg-celestial-star {
+  position: absolute;
+  top: 14%;
+  right: 18%;
+  font-size: 20px;
+  color: #fff9e6;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 5;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+.easter-egg-celestial-star:hover {
+  transform: scale(1.5) rotate(25deg);
+  filter: drop-shadow(0 0 16px rgba(255, 230, 160, 1));
+}
+
+/* Whimsical Rustic Hand-Painted Signs */
+.whimsical-sign {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #382821;
+  background: linear-gradient(135deg, #443128 0%, #2f211a 100%);
+  border: 1px solid #735745;
+  box-shadow: 0 4px 12px rgba(18, 14, 12, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: var(--font-hand);
+  font-size: 0.92rem;
+  line-height: 1.25;
+  color: #f7eedb;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  user-select: none;
+}
+.whimsical-sign:hover {
+  transform: translateY(-2px) rotate(1deg);
+  border-color: var(--c-fairy-gold);
+  box-shadow: 0 6px 16px rgba(18, 14, 12, 0.6), 0 0 10px rgba(229, 195, 101, 0.3);
+}
+
+/* Sign: Please do not feed the fairies (Glade) */
+.fairy-sign-post {
+  margin-top: 10px;
+  transform: rotate(-1.5deg);
+}
+
+/* Sign: Letters may arrive late (Mailbox Shrine) */
+.moon-schedule-sign {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  transform: rotate(-2deg);
+  max-width: 220px;
+  text-align: left;
+  z-index: 5;
+}
+.moon-schedule-sign .sign-star-pin {
+  font-size: 13px;
+  color: var(--c-fairy-gold);
+  filter: drop-shadow(0 0 4px rgba(229, 195, 101, 0.6));
+}
+
+@media (max-width: 768px) {
+  .moon-schedule-sign {
+    position: static;
+    margin-bottom: 12px;
+    transform: none;
+  }
+}
+
+/* Mailbox Wildflowers */
+.mailbox-with-flower-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.mailbox-wildflower {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+.mailbox-wildflower:hover {
+  transform: scale(1.2) translateY(-2px);
+}
+.mailbox-wildflower .wildflower-bloom {
+  font-size: 20px;
+  filter: drop-shadow(0 0 6px rgba(181, 165, 196, 0.5));
+}
+.mailbox-wildflower .wildflower-dewdrop {
+  font-size: 11px;
+  margin-left: -4px;
+  opacity: 0.85;
+}
+
+.shrine-mailbox-flower {
+  position: absolute;
+  bottom: 18px;
+  right: 22px;
+  background: rgba(30, 24, 20, 0.6);
+  border: 1px solid rgba(180, 150, 110, 0.25);
+  border-radius: 20px;
+  padding: 4px 10px;
+  backdrop-filter: blur(4px);
+}
+@media (max-width: 768px) {
+  .shrine-mailbox-flower {
+    position: static;
+    margin-top: 8px;
+  }
+}
+
+/* Lost Button on Floorboards */
+.lost-floor-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: center;
+  margin: 6px auto 14px;
+  background: rgba(60, 45, 36, 0.5);
+  border: 1px dashed rgba(213, 195, 171, 0.3);
+  border-radius: 20px;
+  padding: 3px 12px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #dfcfb4;
+  font-family: var(--font-hand);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+.lost-floor-button:hover {
+  background: rgba(80, 60, 48, 0.7);
+  border-color: var(--c-fairy-gold);
+  color: var(--c-warm-cream);
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(229, 195, 101, 0.35);
+}
+.lost-floor-button .button-pearl-glint {
+  font-size: 16px;
+  filter: drop-shadow(0 0 4px rgba(255, 240, 220, 0.6));
+}
+
+/* Secret Postal Receipt Scrap */
+.postal-secret-receipt-scrap {
+  cursor: pointer;
+  border-bottom: 1px dashed #d4ae45;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.postal-secret-receipt-scrap:hover {
+  transform: translateY(-2px);
+  background: rgba(229, 195, 101, 0.12);
+}
+.receipt-tiny-badge {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #f7eedb;
+  font-size: 0.82rem;
+}
+
+/* Hidden Envelope Corner under Blotter */
+.blotter-hidden-envelope-corner {
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  background: #f7eedb;
+  border: 1px solid #d5c3ab;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transform: rotate(6deg);
+  z-index: 15;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.blotter-hidden-envelope-corner:hover {
+  transform: rotate(0deg) translateY(-4px) scale(1.15);
+  box-shadow: 0 4px 12px rgba(229, 195, 101, 0.4);
+  border-color: var(--c-fairy-gold);
+}
+
+/* Special DELIVERED BY MOONLIGHT Stamp */
+.special-stamp-moonlight {
+  background: linear-gradient(135deg, #fbf7ee 0%, #ecdcc3 100%) !important;
+  border: 1px solid #d4ae45 !important;
+  color: #3b271d !important;
+  font-weight: 600;
+  font-size: 0.76rem !important;
+  letter-spacing: 0.03em;
+  box-shadow: 0 0 8px rgba(212, 174, 69, 0.3);
+}
+
+/* Clock Stopped State */
+.clock-stopped-state {
+  border-color: #e5c365 !important;
+  background: rgba(180, 140, 70, 0.2) !important;
+  animation: none !important;
+}
+
+/* Second Reading Secret Postscript */
+.modal-second-reading-postscript {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: rgba(255, 252, 244, 0.85);
+  border: 1px dashed rgba(160, 130, 100, 0.4);
+  border-radius: 6px;
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #433128;
+  font-style: italic;
+}
+
+/* Post Office Book Categories & Cards */
+.disc-category-box {
+  background: #fdfaf3;
+  border: 1px solid #dfcfb4;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+.disc-category-title {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #433128;
+  border-bottom: 1px dashed #dfcfb4;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.disc-category-count {
+  font-size: 0.78rem;
+  color: #8c7365;
+  font-family: var(--font-sans);
+  background: #eee3d2;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+.disc-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.disc-item-card {
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  transition: background 0.2s ease;
+}
+.disc-item-discovered {
+  background: #fff;
+  border: 1px solid #d5c3ab;
+  color: #3b2820;
+}
+.disc-item-discovered .disc-item-icon {
+  font-size: 16px;
+  margin-right: 6px;
+}
+.disc-item-discovered strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #4a3429;
+  font-family: var(--font-serif);
+}
+.disc-item-discovered span {
+  font-size: 0.78rem;
+  color: #7b6557;
+  display: block;
+  margin-top: 2px;
+}
+.disc-item-undiscovered {
+  background: rgba(235, 222, 205, 0.45);
+  border: 1px dashed #d5c3ab;
+  color: #9c8a7f;
+  font-style: italic;
+}
+
+/* Discreet Reset Option in Post Office Book */
+.book-forget-section {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px dashed #dfcfb4;
+  text-align: center;
+}
+.btn-quiet-forget {
+  background: none;
+  border: none;
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  color: #9c8274;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 4px 8px;
+  transition: color 0.2s ease;
+}
+.btn-quiet-forget:hover {
+  color: #5c3f33;
+}
+.forget-confirm-box {
+  margin-top: 10px;
+  padding: 14px 18px;
+  background: #fff9f0;
+  border: 1px solid #ebdcc3;
+  border-radius: 8px;
+  text-align: center;
+}
+.forget-confirm-text {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #5f4438;
+  margin-bottom: 12px;
+}
+.forget-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.btn-forget-confirm {
+  background: #4a3429;
+  color: #f7eedb;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-forget-confirm:hover {
+  background: #2e1d18;
+}
+.btn-forget-cancel {
+  background: #e8dccb;
+  color: #4a3429;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-forget-cancel:hover {
+  background: #dfcfb8;
+}
+
+
+
+

@@ -1,0 +1,319 @@
+/* ==========================================================================
+   THE FAIRY POST OFFICE - RESPONSIVE STYLES
+   Ensures seamless viewing from small mobile devices to wide monitors
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .desk-stage-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .telescope-stage {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .writing-desk-stage {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .desk-tools-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .post-office-stations {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .fairy-topbar {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .fairy-time-badge {
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+
+  .fairy-actions {
+    justify-content: center;
+  }
+
+  .scene-glade {
+    padding: 12px 12px 30px;
+  }
+
+  .fairy-title {
+    font-size: 2.1rem;
+    letter-spacing: 1.5px;
+  }
+
+  .fairy-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .cottage-container {
+    transform: scale(0.85);
+    margin-top: 0;
+    margin-bottom: -15px;
+  }
+
+  .the-moon {
+    width: 70px;
+    height: 70px;
+    right: 8%;
+    top: 10px;
+  }
+
+  .glade-surroundings {
+    padding: 0 5px;
+  }
+
+  .tiny-mailbox-post {
+    transform: scale(0.9);
+  }
+
+  .fairy-enter-btn {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+  }
+
+  .scene-interior {
+    padding: 8px 12px 40px;
+  }
+
+  .interior-room-box {
+    padding: 16px 14px;
+  }
+
+  .room-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .room-header > * {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .post-office-stations {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .station-btn {
+    padding: 10px 8px;
+  }
+
+  .station-label {
+    font-size: 0.88rem;
+  }
+
+  .station-desc {
+    display: none;
+  }
+
+  .journal-book-opened {
+    padding: 20px 18px;
+  }
+
+  .journal-entry-heading {
+    font-size: 1.3rem;
+  }
+
+  .journal-entry-body {
+    font-size: 1.15rem;
+  }
+
+  .balcony-viewport {
+    height: 280px;
+  }
+
+  .balcony-wish-input-row {
+    flex-direction: column;
+  }
+
+  .btn-whisper-wish {
+    width: 100%;
+  }
+
+  .modal-custom-sheet {
+    padding: 22px 18px;
+    width: 95%;
+  }
+
+  .letter-parchment {
+    padding: 22px 18px 24px;
+  }
+
+  .parchment-body-textarea {
+    font-size: 1.25rem;
+    min-height: 180px;
+  }
+
+  .parchment-recipient-picker {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .parchment-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .parchment-signature-group {
+    max-width: 100%;
+  }
+
+  .btn-seal-and-send {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Centerpiece Writing Desk Mobile Optimization */
+  .writing-desk-sanctuary {
+    padding: 20px 14px 28px;
+  }
+
+  .desk-moonlight-window {
+    width: 90px;
+    height: 120px;
+    right: 2%;
+    opacity: 0.6;
+  }
+
+  .desk-still-life-strip {
+    padding: 10px 14px;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .desk-epigraph {
+    font-size: 1.25rem;
+  }
+
+  .desk-sub-epigraph {
+    font-size: 0.92rem;
+  }
+
+  .letter-types-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .paper-customization-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .paper-tone-swatches, .envelope-swatches, .stamp-swatches, .wax-swatches {
+    flex-wrap: wrap;
+  }
+
+  .real-paper-canvas {
+    padding: 24px 18px 24px;
+    min-height: 380px;
+  }
+
+  .real-paper-textarea {
+    font-size: 1.35rem;
+    min-height: 220px;
+  }
+
+  .paper-bottom-status-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ritual-envelope-wrapper {
+    width: 100%;
+    max-width: 320px;
+    height: 220px;
+    padding: 15px;
+  }
+
+  .btn-fold-letter-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .paper-ritual-actions-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .desk-tools-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .recipients-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-letters-grid,
+  .letters-for-you-grid,
+  .my-letters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mailbox-visual-shrine {
+    padding: 24px 16px 20px;
+  }
+
+  .mailbox-shrine-title {
+    font-size: 1.5rem;
+  }
+
+  .mailbox-actions-bar {
+    flex-direction: column;
+  }
+
+  .btn-unexpected-letter,
+  .btn-mailbox-write {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mailbox-tabs-nav {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mailbox-stats-row {
+    gap: 16px;
+  }
+
+  .modal-parchment-sheet {
+    padding: 24px 20px;
+    max-width: 95%;
+  }
+
+  .modal-letter-content {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .cottage-container {
+    transform: scale(1.1);
+    margin-top: 30px;
+  }
+
+  .fairy-title {
+    font-size: 4.2rem;
+  }
+
+  .fairy-subtitle {
+    font-size: 2.1rem;
+  }
+}

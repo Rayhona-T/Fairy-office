@@ -1,0 +1,47 @@
+[
+  {
+    "id": "dream-1",
+    "title": "Kitchen at 2:13 AM",
+    "glowColor": "#ffd166",
+    "whisper": "A girl dancing alone in a kitchen at 2:13 AM.",
+    "detail": "The refrigerator hums in B-flat. She isn't performing for anyone. She's wearing mismatched woolen socks and buttering toast as though she just invented joy.",
+    "dreamer": "Captured over Copenhagen",
+    "scent": "Warm butter and lavender soap"
+  },
+  {
+    "id": "dream-2",
+    "title": "The Name Ocean",
+    "glowColor": "#06d6a0",
+    "whisper": "An ocean where the waves remember everyone's names.",
+    "detail": "Whenever a wave crests and spills upon the white pebbles, it whispers a name that was nearly forgotten. Nobody drowns here; they just float and listen to their grandparents being spoken by the water.",
+    "dreamer": "Captured over the South Pacific",
+    "scent": "Salt air and dried peppermint"
+  },
+  {
+    "id": "dream-3",
+    "title": "The All-Sunrise House",
+    "glowColor": "#f78c6b",
+    "whisper": "A house with windows facing every sunrise.",
+    "detail": "No matter which door you step through, it is always five minutes before the world wakes up. The kettle has just boiled. There is no email here.",
+    "dreamer": "Dreamed by an architect in Kyoto",
+    "scent": "Cedar shavings and green tea"
+  },
+  {
+    "id": "dream-4",
+    "title": "One Afternoon as a Human",
+    "glowColor": "#b8a3e8",
+    "whisper": "The dream of being human for one afternoon.",
+    "detail": "To feel the scrape of wool on skin. To wait at a bus stop under a broken yellow umbrella. To drop a silver coin into a musician's violin case and feel your ribs ache with gratitude.",
+    "dreamer": "The Moon's own recurring dream",
+    "scent": "Wet asphalt and bakery cinnamon"
+  },
+  {
+    "id": "dream-5",
+    "title": "The Whispering Library",
+    "glowColor": "#70c1b3",
+    "whisper": "A library where books read themselves aloud when you are lonely.",
+    "detail": "The volumes do not shout. They whisper from high walnut shelves in the exact voice of someone you wished had never left.",
+    "dreamer": "Captured over an attic in Prague",
+    "scent": "Old paper and beeswax"
+  }
+]

@@ -1,0 +1,1572 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Fairy Post Office</title>
+    <meta
+      name="description"
+      content="A whimsical sanctuary & the Moon's apartment, where letters are sent to places that don't exist and the Moon's quiet world comes alive."
+    />
+    <meta property="og:title" content="The Fairy Post Office" />
+    <meta
+      property="og:description"
+      content="A whimsical sanctuary & the Moon's apartment, where letters are sent to places that don't exist and the Moon's quiet world comes alive."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/assets/fairy-seal.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+  </head>
+  <body>
+    <!-- Floating Fireflies and Stars Canvas -->
+    <canvas id="fireflies-canvas"></canvas>
+
+    <!-- Night Ambient Vignette -->
+    <div class="night-vignette"></div>
+
+    <div class="fairy-app" id="fairy-app-root">
+      <!-- Top Ambient Bar -->
+      <header class="fairy-topbar" id="fairy-header">
+        <div class="fairy-time-badge" id="fairy-time-badge">
+          <span>✨</span>
+          <span id="clock-fairy-time">Dewdrop Hour • Under the Silver Moon</span>
+        </div>
+
+        <div class="fairy-actions">
+          <!-- In-World Mail Notification -->
+          <button
+            class="world-mail-badge"
+            id="top-bar-mail-badge"
+            type="button"
+            title="Open the Magical Mailbox"
+          >
+            <span class="mail-badge-dot"></span>
+            <span class="mail-badge-icon">📯</span>
+            <span class="mail-badge-label">You have mail</span>
+          </button>
+
+          <!-- Write a Letter Quick Action -->
+          <button
+            class="fairy-btn-primary"
+            id="btn-top-write-letter"
+            type="button"
+            title="Write a letter at the cozy midnight desk"
+          >
+            🖋️ Write a Letter
+          </button>
+
+          <!-- Things you've noticed / The Visitor's Book -->
+          <button
+            class="btn-discoveries-tracker"
+            id="btn-open-discoveries"
+            type="button"
+            title="Open Things You've Noticed • The Visitor's Book"
+          >
+            <span>📜 Things you&apos;ve noticed</span>
+            <span class="disc-badge-pill" id="discoveries-count-badge">0</span>
+          </button>
+
+          <!-- Audio Ambient Toggle -->
+          <button
+            class="fairy-btn-subtle"
+            id="btn-sound-toggle"
+            type="button"
+            title="Toggle enchanted chime sounds"
+          >
+            🔔 Chimes On
+          </button>
+        </div>
+      </header>
+
+      <!-- ================================================================= -->
+      <!-- SCENE 1: THE MOONLIT FOREST GLADE (EXTERIOR LANDING)               -->
+      <!-- ================================================================= -->
+      <main class="scene-glade" id="scene-glade">
+        <!-- Moonlit backdrop -->
+        <div class="moonlit-sky">
+          <div
+            class="the-moon anim-drift"
+            id="glade-the-moon"
+            role="button"
+            tabindex="0"
+            title="The silver moon gazing down at the trees"
+            aria-label="The Moon"
+          ></div>
+          <div class="cloud-wisp anim-drift-alt"></div>
+          <!-- A lone celestial twinkling star (Easter Egg) -->
+          <div
+            class="easter-egg-celestial-star anim-twinkle-star"
+            id="easter-egg-celestial-star"
+            role="button"
+            tabindex="0"
+            title="A lone star pulsing in the corner of the sky"
+            aria-label="Catch a star"
+          >
+            ✦
+          </div>
+        </div>
+
+        <!-- Title & Poetic Epigraph -->
+        <div class="post-office-header">
+          <div class="title-ornament">
+            <span>🌿</span>
+            <span>Enchanted Glade • Established in a Dream</span>
+            <span>🌿</span>
+          </div>
+          <h1 class="fairy-title anim-shimmer-title" id="fairy-main-title">
+            The Fairy Post Office
+          </h1>
+          <p class="fairy-subtitle" id="fairy-main-subtitle">
+            Some letters are meant for places that don&apos;t exist.
+          </p>
+        </div>
+
+        <!-- The Tiny Post Office Building -->
+        <div class="cottage-container">
+          <div class="fairy-cottage">
+            <!-- Stone Chimney & Fairy Smoke -->
+            <div class="chimney">
+              <div class="smoke-puff anim-smoke-1"></div>
+              <div class="smoke-puff anim-smoke-2"></div>
+            </div>
+
+            <!-- Mossy Thatched Roof -->
+            <div class="cottage-roof">
+              <div class="moss-cluster m1"></div>
+              <div class="moss-cluster m2"></div>
+              <div class="moss-cluster m3"></div>
+              <div class="roof-flowers">🌸 🌼 🌺</div>
+            </div>
+
+            <!-- Timber Cottage Body -->
+            <div class="cottage-body">
+              <div class="cottage-beam beam-horiz"></div>
+              <div class="cottage-beam beam-vert-left"></div>
+              <div class="cottage-beam beam-vert-right"></div>
+
+              <!-- Glowing Amber Window with Flower Box -->
+              <div class="cottage-window anim-window-glow" id="cottage-window">
+                <div class="window-bars"></div>
+              </div>
+              <div class="window-flowerbox">
+                <span>🌷</span>
+                <span>🌿</span>
+                <span>🌸</span>
+              </div>
+
+              <!-- Hanging Sign swaying on chains -->
+              <div class="hanging-sign-mount anim-lantern">
+                <div class="sign-bracket"></div>
+                <div class="sign-chains">
+                  <div class="sign-chain"></div>
+                  <div class="sign-chain"></div>
+                </div>
+                <div class="sign-board">FAIRY POST</div>
+              </div>
+
+              <!-- Main Entrance Arched Wooden Door -->
+              <div class="cottage-door-wrapper">
+                <div
+                  class="cottage-door"
+                  id="cottage-door"
+                  role="button"
+                  tabindex="0"
+                  title="Click to enter the sanctuary"
+                  aria-label="Enter the sanctuary"
+                >
+                  <div class="door-wreath">🌿</div>
+                  <div class="door-mail-slot"></div>
+                  <div class="door-knob"></div>
+                </div>
+                <div class="door-lantern anim-flame" id="door-lantern" title="Warm brass lantern">
+                  🏮
+                </div>
+                <!-- Whimsical Sign 1: Please do not feed the fairies -->
+                <div
+                  class="whimsical-sign fairy-sign-post"
+                  id="sign-do-not-feed"
+                  role="button"
+                  tabindex="0"
+                  title="A weathered wooden sign swinging on twine"
+                  aria-label="Sign: Please do not feed the fairies"
+                >
+                  <span class="sign-twine">🪢</span>
+                  <span class="sign-wood-text">Please do not feed the fairies.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glade Surroundings: Mailbox, Clover, Mushrooms -->
+        <div class="glade-surroundings">
+          <div class="flower-patch-left">
+            <span>🍄</span>
+            <span>🌸</span>
+            <span>🌿</span>
+            <span>🪻</span>
+          </div>
+
+          <!-- Tiny Mailbox Post with Flower Beside It -->
+          <div class="mailbox-with-flower-wrapper">
+            <div
+              class="tiny-mailbox-post"
+              id="tiny-mailbox-post"
+              role="button"
+              tabindex="0"
+              title="Click to peek inside the Mailbox"
+              aria-label="View Mailbox"
+            >
+              <div class="mailbox-box">
+                <span>📮</span>
+                <span style="font-family: var(--font-hand); font-size: 11px;">Drop Notes</span>
+                <div class="mailbox-flag"></div>
+              </div>
+              <div class="mailbox-wood-stake"></div>
+            </div>
+
+            <!-- Whimsical Detail: Flower growing beside the mailbox -->
+            <div
+              class="mailbox-wildflower glade-mailbox-flower"
+              id="glade-mailbox-flower"
+              role="button"
+              tabindex="0"
+              title="A tiny wild bell-flower growing in the crack of the cedar post"
+              aria-label="Inspect flower beside mailbox"
+            >
+              <span class="wildflower-stem">🌱</span>
+              <span class="wildflower-bloom">🪻</span>
+              <span class="wildflower-dewdrop">💧</span>
+            </div>
+          </div>
+
+          <div class="flower-patch-right">
+            <span>🪻</span>
+            <span>🌼</span>
+            <span>🍄</span>
+            <span>🌿</span>
+          </div>
+        </div>
+
+        <!-- Entrance CTA Buttons -->
+        <div class="entrance-cta-wrapper">
+          <button
+            class="fairy-btn-primary anim-pulse"
+            id="btn-glade-write-letter"
+            type="button"
+            title="Sit down at the midnight desk to write"
+          >
+            <span class="key-icon">🖋️</span>
+            <span>Write a Letter</span>
+          </button>
+          <button
+            class="fairy-enter-btn"
+            id="btn-enter-post-office"
+            type="button"
+          >
+            <span class="key-icon">🗝️</span>
+            <span>Push Open the Oak Door</span>
+            <span>→</span>
+          </button>
+        </div>
+      </main>
+
+      <!-- ================================================================= -->
+      <!-- SCENE 2: THE MOON'S APARTMENT & FAIRY POST SANCTUARY               -->
+      <!-- ================================================================= -->
+      <section
+        class="scene-interior"
+        id="scene-interior"
+        aria-label="Inside the Moon's Apartment"
+      >
+        <div class="interior-room-box">
+          <!-- Hanging Fairy Lights Garland -->
+          <div class="fairy-lights-garland">
+            <div class="fairy-bulb">
+              <div class="bulb-wire"></div>
+              <div class="bulb-glass anim-fairy-light-1" title="Warm fairy bulb"></div>
+            </div>
+            <div class="fairy-bulb">
+              <div class="bulb-wire"></div>
+              <div class="bulb-glass anim-fairy-light-2" title="Warm fairy bulb"></div>
+            </div>
+            <div class="fairy-bulb">
+              <div class="bulb-wire" style="height: 24px;"></div>
+              <div class="bulb-glass anim-fairy-light-3" title="Warm fairy bulb"></div>
+            </div>
+            <div class="fairy-bulb">
+              <div class="bulb-wire"></div>
+              <div class="bulb-glass anim-fairy-light-4" title="Warm fairy bulb"></div>
+            </div>
+            <div class="fairy-bulb">
+              <div class="bulb-wire" style="height: 22px;"></div>
+              <div class="bulb-glass anim-fairy-light-2" title="Warm fairy bulb"></div>
+            </div>
+            <div class="fairy-bulb">
+              <div class="bulb-wire"></div>
+              <div class="bulb-glass anim-fairy-light-1" title="Warm fairy bulb"></div>
+            </div>
+          </div>
+
+          <!-- Room Top Signage & Old Grandfather Clock -->
+          <div class="room-header">
+            <div class="room-signage">
+              <div class="room-stamp-crest">🌙</div>
+              <div>
+                <h2 class="room-title-h1">The Moon&apos;s Apartment</h2>
+                <p class="room-sub-quote">
+                  She is not here right now, but her tea is still warm and her telescope is aimed at Earth.
+                </p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <!-- Grandfather Clock with Interactive Pendulum -->
+              <div class="vintage-clock" id="room-clock">
+                <div
+                  class="clock-face clock-pendulum-interactive"
+                  id="clock-pendulum-click-area"
+                  title="Inspect behind the swinging brass pendulum"
+                  role="button"
+                  tabindex="0"
+                >
+                  <span class="anim-pendulum" id="clock-pendulum" style="display: inline-block;">🕰️</span>
+                </div>
+                <div class="clock-info">
+                  <span class="clock-label">Fairy Clock</span>
+                  <span class="clock-time" id="clock-room-time">Breeze of Midnight</span>
+                </div>
+              </div>
+
+              <!-- Return to the Glade -->
+              <button
+                class="btn-return-outside"
+                id="btn-return-outside"
+                type="button"
+                title="Return to the Glade outside"
+              >
+                <span>🌿</span>
+                <span>Step Outside</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Whimsical Detail: Lost Mother-of-Pearl Button on the floorboards -->
+          <div
+            class="lost-floor-button"
+            id="lost-floor-button"
+            role="button"
+            tabindex="0"
+            title="A tiny lost mother-of-pearl button on the floorboards"
+            aria-label="Pick up lost button"
+          >
+            <span class="button-pearl-glint">🔘</span>
+            <span class="lost-button-label">a lost button</span>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- WORLD STATIONS NAVIGATION                                     -->
+          <!-- ============================================================= -->
+          <nav class="post-office-stations" id="post-office-nav" aria-label="Apartment Stations">
+            <button
+              class="station-btn active"
+              data-station="desk"
+              type="button"
+              id="nav-station-desk"
+            >
+              <span class="station-icon">🖋️</span>
+              <span class="station-label">Write a Letter</span>
+              <span class="station-desc">Midnight writing desk</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="bookshelf"
+              type="button"
+              id="nav-station-bookshelf"
+            >
+              <span class="station-icon">📚</span>
+              <span class="station-label">The Bookshelf</span>
+              <span class="station-desc">Fictional volumes</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="journal"
+              type="button"
+              id="nav-station-journal"
+            >
+              <span class="station-icon">📖</span>
+              <span class="station-label">The Journal</span>
+              <span class="station-desc">Her midnight thoughts</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="dreams"
+              type="button"
+              id="nav-station-dreams"
+            >
+              <span class="station-icon">✨</span>
+              <span class="station-label">Dream Jars</span>
+              <span class="station-desc">Captured human dreams</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="telescope"
+              type="button"
+              id="nav-station-telescope"
+            >
+              <span class="station-icon">🔭</span>
+              <span class="station-label">The Telescope</span>
+              <span class="station-desc">Gaze down at Earth</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="balcony"
+              type="button"
+              id="nav-station-balcony"
+            >
+              <span class="station-icon">🌌</span>
+              <span class="station-label">The Balcony</span>
+              <span class="station-desc">Stardust &amp; wishes</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="mailbox"
+              type="button"
+              id="nav-station-mailbox"
+            >
+              <span class="station-icon">📮</span>
+              <span class="station-label">Mailbox</span>
+              <span class="station-desc">Courier slots</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="recipients"
+              type="button"
+              id="nav-station-recipients"
+            >
+              <span class="station-icon">🧚</span>
+              <span class="station-label">Recipients</span>
+              <span class="station-desc">Known addresses</span>
+            </button>
+
+            <button
+              class="station-btn"
+              data-station="archive"
+              type="button"
+              id="nav-station-archive"
+            >
+              <span class="station-icon">📜</span>
+              <span class="station-label">My Letters</span>
+              <span class="station-desc">Folded envelopes</span>
+            </button>
+          </nav>
+
+          <!-- ============================================================= -->
+          <!-- STATION 1: THE DESK (LIVING CURIOS + LETTER WRITING)          -->
+          <!-- ============================================================= -->
+          <div class="desk-stage-container" id="stage-desk">
+            <!-- Left Side: Interactive Objects & Curios on the Desk -->
+            <aside class="desk-curios-shelf" aria-label="Living Desk Curios">
+              <div class="curios-shelf-title">
+                <span>Her Desk Curios</span>
+                <span style="font-size: 11px; opacity: 0.8;">Click to explore</span>
+              </div>
+
+              <div class="curios-grid">
+                <!-- 1. The Teacup (Tiny reaction & thought) -->
+                <div
+                  class="curio-item-box"
+                  id="interactive-teacup"
+                  role="button"
+                  tabindex="0"
+                  title="Click to inspect teacup"
+                >
+                  <div class="curio-icon-wrap">
+                    <span>🍵</span>
+                    <span class="teacup-steam-crescent" id="teacup-steam-crescent">🌙</span>
+                  </div>
+                  <span class="curio-name">Midnight Teacup</span>
+                  <span class="curio-sub">Cloud rainwater</span>
+                </div>
+
+                <!-- 2. Desk Lamp (Environmental change) -->
+                <div
+                  class="curio-item-box"
+                  id="interactive-lamp"
+                  role="button"
+                  tabindex="0"
+                  title="Click to toggle desk lamp"
+                >
+                  <div class="curio-icon-wrap">
+                    <span>💡</span>
+                  </div>
+                  <span class="curio-name">Banker's Lamp</span>
+                  <span class="curio-sub">Amber warmth</span>
+                </div>
+
+                <!-- 3. Fountain Pen (Mini interaction: stardust ink) -->
+                <div
+                  class="curio-item-box"
+                  id="interactive-pen"
+                  role="button"
+                  tabindex="0"
+                  title="Click to dip fountain pen"
+                >
+                  <div class="curio-icon-wrap">
+                    <span>✒️</span>
+                  </div>
+                  <span class="curio-name">Gold-Nibbed Pen</span>
+                  <span class="curio-sub">Meteorite dust ink</span>
+                </div>
+
+                <!-- 4. Lunar Calendar of Impossible Dates (Thought / Easter Egg) -->
+                <div
+                  class="curio-item-box"
+                  id="interactive-calendar"
+                  role="button"
+                  tabindex="0"
+                  title="Click to flip through the Calendar of Impossible Dates"
+                >
+                  <div class="curio-icon-wrap">
+                    <span>📅</span>
+                  </div>
+                  <span class="curio-name">Impossible Calendar</span>
+                  <span class="curio-sub">Impossible dates</span>
+                </div>
+
+                <!-- 5. Moon Primrose (Mini interaction) -->
+                <div
+                  class="curio-item-box"
+                  id="interactive-primrose"
+                  role="button"
+                  tabindex="0"
+                  title="Click to sprinkle water on flower"
+                >
+                  <div class="curio-icon-wrap">
+                    <span>🪻</span>
+                  </div>
+                  <span class="curio-name">Moon Primrose</span>
+                  <span class="curio-sub">Night blossom</span>
+                </div>
+
+                <!-- 6. Bakelite Radio (Mini interaction / Music) -->
+                <div
+                  class="curio-item-box"
+                  id="interactive-radio"
+                  role="button"
+                  tabindex="0"
+                  title="Click to tune vintage radio"
+                >
+                  <div class="curio-icon-wrap">
+                    <span>📻</span>
+                  </div>
+                  <span class="curio-name">Bakelite Radio</span>
+                  <span class="curio-sub">Distant waltz</span>
+                </div>
+              </div>
+
+              <!-- Framed Photographs on the Desk -->
+              <div style="margin-top: 4px;">
+                <div style="font-size: 0.8rem; color: var(--c-fairy-gold); margin-bottom: 6px;">
+                  Framed Memories
+                </div>
+                <div class="desk-photos-strip">
+                  <div
+                    class="desk-photo-frame"
+                    data-memory-id="earthrise"
+                    role="button"
+                    tabindex="0"
+                    title="Inspect Earthrise Photograph"
+                  >
+                    <span>🌍</span>
+                    <div class="desk-photo-label">1968 Earth</div>
+                  </div>
+                  <div
+                    class="desk-photo-frame"
+                    data-memory-id="cat"
+                    role="button"
+                    tabindex="0"
+                    title="Inspect Lisbon Cat Photograph"
+                  >
+                    <span>🐈</span>
+                    <div class="desk-photo-label">Lisbon Cat</div>
+                  </div>
+                  <div
+                    class="desk-photo-frame"
+                    data-memory-id="eclipse"
+                    role="button"
+                    tabindex="0"
+                    title="Inspect Solar Corona Photograph"
+                  >
+                    <span>☀️</span>
+                    <div class="desk-photo-label">The Corona</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- The Mysterious Locked Drawer -->
+              <div
+                class="locked-drawer-box"
+                id="desk-locked-drawer"
+                role="button"
+                tabindex="0"
+                title="The bottom drawer with crescent keyhole"
+              >
+                <div class="drawer-info">
+                  <h5>The Bottom Drawer</h5>
+                  <p>Closed for 47 years</p>
+                </div>
+                <div class="drawer-keyhole">🗝️</div>
+              </div>
+
+              <!-- Interactive Candle Stand -->
+              <div class="desk-item-card" style="margin-top: 2px;">
+                <div class="desk-item-title">
+                  <span>Candlelight</span>
+                  <span style="font-size: 11px; opacity: 0.8;">Tap to snuff</span>
+                </div>
+                <div class="candle-stand" id="candle-interactive" title="Click to light or extinguish candle">
+                  <div class="candle-pillar">
+                    <div class="candle-wax-drip"></div>
+                    <div class="candle-wick"></div>
+                    <div class="candle-flame anim-flame" id="candle-flame"></div>
+                  </div>
+                  <div class="candle-hint">
+                    Honeycomb &amp; sage smoke softens the cold starlight.
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <!-- Right Side: The Centerpiece Midnight Writing Desk -->
+            <main class="writing-desk-stage" id="desk-blotter-pad" style="position: relative;">
+              <div class="writing-desk-sanctuary">
+                <!-- Arched Vintage Window & Moonlight Beam -->
+                <div class="desk-moonlight-window" title="Soft moonlight entering from the starry sky">
+                  <div class="window-glass-moon"></div>
+                  <div class="window-mullions"></div>
+                </div>
+                <div class="moonlight-beam-overlay anim-moonlight-beam"></div>
+
+                <!-- Atmospheric Desk Still-Life Strip -->
+                <div class="desk-still-life-strip">
+                  <div class="desk-prop-group">
+                    <div class="desk-prop-item" id="prop-desk-tea" title="Hot Earl Grey with cloud rainwater">
+                      <span class="desk-prop-icon desk-tea-steam">🍵</span>
+                      <span>Midnight Tea</span>
+                    </div>
+                    <div class="desk-prop-item" id="prop-desk-candle" title="Beeswax candle burning quietly">
+                      <span class="desk-prop-icon anim-flame">🕯️</span>
+                      <span>Beeswax Candle</span>
+                    </div>
+                    <div class="desk-prop-item" title="Pressed primroses &amp; dried lavender sprig">
+                      <span class="desk-prop-icon">🪻</span>
+                      <span>Tiny Flowers</span>
+                    </div>
+                  </div>
+                  <div class="desk-prop-group">
+                    <div class="desk-prop-item" title="Gold-nibbed fountain pen with stardust ink">
+                      <span class="desk-prop-icon">✒️</span>
+                      <span>Fountain Pen</span>
+                    </div>
+                    <div class="desk-prop-item" title="Handmade deckled envelope &amp; sealing wax">
+                      <span class="desk-prop-icon">✉️</span>
+                      <span id="prop-desk-wax-label">Wax Seal Kit</span>
+                    </div>
+                    <!-- Whimsical Detail: Receipt that says "POSTAGE: 1 secret" -->
+                    <div
+                      class="desk-prop-item postal-secret-receipt-scrap"
+                      id="postal-secret-receipt"
+                      role="button"
+                      tabindex="0"
+                      title="A folded parchment receipt tucked behind the wax seal kit"
+                      aria-label="Postal receipt: 1 secret"
+                    >
+                      <span class="desk-prop-icon">📜</span>
+                      <span class="receipt-tiny-badge">POSTAGE: 1 secret</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Easter Egg: Hidden envelope corner peeking under blotter -->
+                <div
+                  class="blotter-hidden-envelope-corner"
+                  id="blotter-hidden-envelope-corner"
+                  role="button"
+                  tabindex="0"
+                  title="A corner of an envelope peeking from beneath the blotter felt"
+                  aria-label="Inspect under blotter"
+                >
+                  <span class="blotter-envelope-icon">✉️</span>
+                </div>
+
+                <!-- Epigraph -->
+                <div class="desk-intimate-header">
+                  <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--c-warm-cream); margin-bottom: 4px;">
+                    The Midnight Writing Desk
+                  </h3>
+                  <p class="desk-epigraph">
+                    Sitting alone at midnight writing something you don&apos;t know how to say out loud.
+                  </p>
+                  <p class="desk-sub-epigraph">
+                    Take your time. No words written here are ever judged or hurried.
+                  </p>
+                </div>
+
+                <!-- Active Writing Flow Container -->
+                <div class="letter-steps-container" id="letter-writing-flow">
+                  <!-- Step 1: Who is this letter for? -->
+                  <div class="letter-flow-card">
+                    <div class="letter-flow-title">
+                      <span class="letter-flow-step-num">1</span>
+                      <span>Who is this letter for?</span>
+                    </div>
+                    <div class="recipients-pill-row" id="writer-recipients-pills">
+                      <!-- Populated by JavaScript with whimsical choices -->
+                    </div>
+                    <div class="recipient-custom-field-box" id="writer-custom-recipient-box">
+                      <input
+                        type="text"
+                        id="writer-custom-recipient-input"
+                        class="fairy-input"
+                        placeholder="Write a name or description (e.g., The stranger who smiled on the rain-slicked tram)"
+                        aria-label="Custom recipient name"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Step 2: What kind of letter is it? -->
+                  <div class="letter-flow-card">
+                    <div class="letter-flow-title">
+                      <span class="letter-flow-step-num">2</span>
+                      <span>What kind of letter is it?</span>
+                    </div>
+                    <div class="letter-types-grid" id="writer-letter-types-grid">
+                      <!-- 9 Whimsical Letter Types -->
+                    </div>
+                  </div>
+
+                  <!-- Step 3: Paper Customization & Real Paper Writing Area -->
+                  <div class="letter-flow-card" style="padding: 16px 18px;">
+                    <div class="letter-flow-title" style="margin-bottom: 14px;">
+                      <span class="letter-flow-step-num">3</span>
+                      <span>Write your letter</span>
+                    </div>
+
+                    <!-- Visual Choices Toolbar -->
+                    <div class="paper-customization-bar">
+                      <div>
+                        <span class="customization-section-label">Paper Tint</span>
+                        <div class="paper-tone-swatches" id="paper-tone-picker">
+                          <button type="button" class="swatch-btn active" data-tone="paper-cream" title="Soft warm cream paper">📜 Cream</button>
+                          <button type="button" class="swatch-btn" data-tone="paper-pale-pink" title="Delicate pale rose paper">🌸 Pale Pink</button>
+                          <button type="button" class="swatch-btn" data-tone="paper-lavender" title="Twilight lavender paper">🪻 Lavender</button>
+                          <button type="button" class="swatch-btn" data-tone="paper-aged" title="Antique aged deckled paper">📜 Slightly Aged</button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span class="customization-section-label">Envelope</span>
+                        <div class="envelope-swatches" id="envelope-style-picker">
+                          <button type="button" class="swatch-btn active" data-env="env-linen" title="Linen ivory envelope">Ivory Linen</button>
+                          <button type="button" class="swatch-btn" data-env="env-rose" title="Dusty rose envelope">Dusty Rose</button>
+                          <button type="button" class="swatch-btn" data-env="env-lavender" title="Muted lavender envelope">Muted Lavender</button>
+                          <button type="button" class="swatch-btn" data-env="env-aged" title="Aged kraft envelope">Aged Kraft</button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span class="customization-section-label">Decorative Stamp</span>
+                        <div class="stamp-swatches" id="writer-stamp-picker">
+                          <button type="button" class="swatch-btn active" data-stamp="🌙" title="Crescent Moon">🌙</button>
+                          <button type="button" class="swatch-btn special-stamp-moonlight" data-stamp="DELIVERED BY MOONLIGHT" title="Special Postal Stamp: DELIVERED BY MOONLIGHT">🌙 DELIVERED BY MOONLIGHT</button>
+                          <button type="button" class="swatch-btn" data-stamp="🌿" title="Wild Fern">🌿</button>
+                          <button type="button" class="swatch-btn" data-stamp="✨" title="Star Spark">✨</button>
+                          <button type="button" class="swatch-btn" data-stamp="🗝️" title="Antique Key">🗝️</button>
+                          <button type="button" class="swatch-btn" data-stamp="🪶" title="Quill Feather">🪶</button>
+                          <button type="button" class="swatch-btn" data-stamp="🕊️" title="Gentle Dove">🕊️</button>
+                          <button type="button" class="swatch-btn" data-stamp="🦋" title="Night Moth">🦋</button>
+                          <button type="button" class="swatch-btn" data-stamp="🌸" title="Dewdrop Petal">🌸</button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span class="customization-section-label">Wax Seal</span>
+                        <div class="wax-swatches" id="writer-wax-picker">
+                          <button type="button" class="wax-bubble wax-rose selected" data-wax="wax-rose" title="Rose-Gold Crimson Wax"></button>
+                          <button type="button" class="wax-bubble wax-gold" data-wax="wax-gold" title="Burnished Fairy Gold Wax"></button>
+                          <button type="button" class="wax-bubble wax-moss" data-wax="wax-moss" title="Forest Moss Wax"></button>
+                          <button type="button" class="wax-bubble wax-twilight" data-wax="wax-twilight" title="Midnight Twilight Wax"></button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- THE REAL WRITING PAPER -->
+                    <div class="real-paper-canvas paper-cream" id="real-paper-canvas">
+                      <!-- Salutation & Stamp Header -->
+                      <div class="paper-top-salutation-row">
+                        <div>
+                          <div class="paper-salutation-text" id="paper-salutation-title">
+                            To the Lady in the Moon,
+                          </div>
+                          <div class="paper-salutation-sub" id="paper-type-subtitle">
+                            💌 Something I Never Said
+                          </div>
+                        </div>
+                        <div class="paper-chosen-stamp-display" id="paper-current-stamp" title="Your decorative postage stamp">
+                          🌙
+                        </div>
+                      </div>
+
+                      <!-- Natural Ink Textarea -->
+                      <textarea
+                        id="real-paper-textarea"
+                        class="real-paper-textarea"
+                        placeholder="I am writing this from the midnight desk... the room is quiet, and I wanted to tell you..."
+                        aria-label="Your handwritten letter content"
+                      ></textarea>
+
+                      <!-- Word Counter & Sender Signoff -->
+                      <div class="paper-bottom-status-row">
+                        <div class="in-world-word-counter" id="paper-word-count-display">
+                          Your letter has 0 little words.
+                        </div>
+
+                        <div class="paper-sender-signoff">
+                          <span>With quiet starlight,</span>
+                          <input
+                            type="text"
+                            id="writer-sender-name-input"
+                            class="paper-sender-input"
+                            value="A Quiet Dreamer"
+                            placeholder="Your signature"
+                            aria-label="Sender signature"
+                          />
+                        </div>
+                      </div>
+
+                      <!-- Actions: Erase words & Fold the letter -->
+                      <div class="paper-ritual-actions-row">
+                        <button type="button" class="btn-paper-erase" id="btn-paper-erase" title="Clear page and start over">
+                          <span>Erase words</span>
+                        </button>
+                        <button type="button" class="btn-fold-letter-primary" id="btn-fold-letter" title="Fold the finished letter">
+                          <span>Fold the letter</span>
+                          <span>✉️</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- The Folding & Sealing Ritual View (shown during folding/sealing) -->
+                <div class="folding-ritual-stage" id="folding-ritual-stage">
+                  <div class="ritual-instruction-text" id="ritual-instruction-text">
+                    The paper folds gently along its creases...
+                  </div>
+
+                  <div class="ritual-envelope-wrapper env-linen" id="ritual-envelope-wrapper">
+                    <div class="envelope-postage-stamp" id="envelope-ritual-stamp">🌙</div>
+                    <div class="envelope-recipient-badge" id="envelope-ritual-recipient">
+                      The Lady in the Moon
+                    </div>
+                    <div class="envelope-type-badge" id="envelope-ritual-type">
+                      💌 Something I Never Said
+                    </div>
+                    <div class="envelope-wax-seal-spot wax-rose" id="envelope-ritual-wax" title="Molten sealing wax">
+                      <span>🌙</span>
+                    </div>
+                  </div>
+
+                  <div id="ritual-action-buttons-container">
+                    <button type="button" class="btn-fold-letter-primary" id="btn-ritual-action">
+                      <span>Seal it</span>
+                      <span>🕯️</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Confirmation Card (shown after sending into the night) -->
+                <div class="letter-sent-confirmation-box" id="letter-sent-confirmation-box">
+                  <span style="font-size: 42px;">🕊️ ✨</span>
+                  <h4 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--c-fairy-gold); margin-top: 10px;">
+                    Sent into the Night
+                  </h4>
+                  <p class="sent-confirmation-quote">
+                    “Your letter has flown into the quiet night. The night breeze carries it safely, and it is resting in your archive under &apos;My Letters&apos;.”
+                  </p>
+                  <div class="confirmation-actions-row">
+                    <button type="button" class="fairy-enter-btn" id="btn-write-another-letter">
+                      <span>🖋️ Write Another Letter</span>
+                    </button>
+                    <button type="button" class="fairy-btn-subtle" id="btn-view-my-archive">
+                      <span>📜 View in My Letters</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 2: THE BOOKSHELF                                      -->
+          <!-- ============================================================= -->
+          <div class="bookshelf-stage" id="stage-bookshelf" style="display: none;">
+            <div class="stage-intro-banner">
+              <h2>The Moon&apos;s Bookshelf</h2>
+              <p>Volumes she has gathered over five billion years. Click any volume to inspect its pages and margin notes.</p>
+            </div>
+            <div class="bookshelf-grid" id="bookshelf-grid">
+              <!-- Rendered by JavaScript from books.json -->
+            </div>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 3: THE JOURNAL                                        -->
+          <!-- ============================================================= -->
+          <div class="journal-stage" id="stage-journal" style="display: none;">
+            <div class="stage-intro-banner">
+              <h2>The Moon&apos;s Midnight Journal</h2>
+              <p>Her private notebook kept on the bedside table. Written in soft violet ink between dusk and dawn.</p>
+            </div>
+
+            <!-- Opened Journal Layout -->
+            <div class="journal-book-opened">
+              <div class="journal-top-row">
+                <span class="journal-date" id="journal-entry-date">October 14 • 2:40 AM</span>
+                <span class="journal-mood-tag" id="journal-entry-mood">Mood: Quiet Wonder</span>
+              </div>
+
+              <h3 class="journal-entry-heading" id="journal-entry-title">On the habit of lights</h3>
+              <p class="journal-entry-body" id="journal-entry-content">
+                From up here, cities don't look like concrete and glass. They look like glowing moss spreading over dark velvet cushions...
+              </p>
+
+              <div class="journal-nav-bar">
+                <button class="journal-nav-btn" id="btn-journal-prev" type="button">← Earlier Page</button>
+                <span style="font-family: var(--font-serif); font-size: 0.88rem; color: #73594c;">Turn softly</span>
+                <button class="journal-nav-btn" id="btn-journal-next" type="button">Later Page →</button>
+              </div>
+            </div>
+
+            <!-- Quick Entry Title Selector -->
+            <div>
+              <span style="font-size: 0.8rem; color: var(--c-fairy-gold); margin-bottom: 6px; display: block;">
+                Table of Entries:
+              </span>
+              <div class="journal-pills-list" id="journal-entry-pills">
+                <!-- Populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 4: DREAM JARS                                         -->
+          <!-- ============================================================= -->
+          <div class="stage-dreams-wrapper" id="stage-dreams" style="display: none; flex-direction: column; gap: 20px;">
+            <div class="stage-intro-banner">
+              <h2>The Dream Jars</h2>
+              <p>Glass vessels catching human dreams that floated too high into the upper atmosphere. Tap a jar to release its whisper.</p>
+            </div>
+
+            <div class="dream-jars-shelf" id="dream-jars-shelf">
+              <!-- Rendered by JavaScript from dreams.json -->
+            </div>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 5: THE TELESCOPE                                      -->
+          <!-- ============================================================= -->
+          <div class="telescope-stage" id="stage-telescope" style="display: none;">
+            <!-- Telescope Eyepiece Canvas -->
+            <div class="telescope-view-wrapper">
+              <div style="text-align: center; margin-bottom: 8px;">
+                <span style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--c-fairy-gold);">
+                  Brass Eyepiece Reticle
+                </span>
+                <p style="font-size: 0.75rem; color: #bcaaa0;">Click any celestial beacon inside the lens</p>
+              </div>
+              <canvas id="telescope-canvas"></canvas>
+            </div>
+
+            <!-- Telescope Discoveries & Focus Card -->
+            <div class="telescope-sidebar">
+              <div id="telescope-active-focus">
+                <div class="focused-sighting-box">
+                  <span class="focus-icon">🌍</span>
+                  <div class="focus-info">
+                    <h3>Planet Earth</h3>
+                    <p class="focus-quote">“Look at them down there, huddled around their little fires and lamp posts.”</p>
+                    <p class="focus-detail">Swirling clouds over the Atlantic Ocean, carrying dreams and memories across continents.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-size: 0.82rem; color: var(--c-fairy-gold); margin-top: 6px;">
+                Celestial Logbook:
+              </div>
+              <div class="telescope-sightings-list" id="telescope-sightings-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 290px; overflow-y: auto;">
+                <!-- Populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 6: THE BALCONY & WISHES                               -->
+          <!-- ============================================================= -->
+          <div class="balcony-stage" id="stage-balcony" style="display: none;">
+            <div class="stage-intro-banner">
+              <h2>The Stone Balcony</h2>
+              <p>Step out into the silent cosmic wind. Earth hangs in the distance like a blue sapphire.</p>
+            </div>
+
+            <!-- Panoramic Sky Canvas -->
+            <div class="balcony-viewport">
+              <canvas id="balcony-sky-canvas"></canvas>
+              <div class="balcony-rail-overlay"></div>
+            </div>
+
+            <!-- Make a Wish Interaction -->
+            <div class="balcony-whisper-card">
+              <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--c-fairy-gold); margin-bottom: 4px;">
+                Whisper a Wish to the Stars
+              </h3>
+              <p style="font-size: 0.85rem; color: #cfc1b4;">
+                Type a wish. The Moon will keep it safe in her gravity, stored only in your private browser sanctuary.
+              </p>
+
+              <form id="balcony-wish-form">
+                <div class="balcony-wish-input-row">
+                  <input
+                    type="text"
+                    id="balcony-wish-input"
+                    class="balcony-input"
+                    placeholder="Whisper what your heart hopes for tonight..."
+                    required
+                  />
+                  <button type="submit" class="btn-whisper-wish">
+                    ✨ Whisper to Stars
+                  </button>
+                </div>
+              </form>
+
+              <div class="balcony-confirmation" id="balcony-wish-confirmation">
+                The Moon is keeping your wish.
+              </div>
+
+              <!-- Previously kept wishes -->
+              <div style="margin-top: 18px;">
+                <span style="font-size: 0.8rem; color: var(--c-fairy-gold); display: block; margin-bottom: 6px;">
+                  Wishes Entrusted to the Night:
+                </span>
+                <div id="balcony-wishes-kept-list">
+                  <!-- Populated by JavaScript from localStorage -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 7: THE MAGICAL MAILBOX SANCTUARY                       -->
+          <!-- ============================================================= -->
+          <div class="mailbox-stage" id="stage-mailbox" style="display: none;">
+            <!-- The Grand Mossy Mailbox Visual Shrine -->
+            <div class="mailbox-visual-shrine" id="mailbox-visual-shrine">
+              <!-- Whimsical Sign 2: The Moon's Scheduling -->
+              <div
+                class="whimsical-sign moon-schedule-sign"
+                id="sign-moon-scheduling"
+                role="button"
+                tabindex="0"
+                title="A hand-painted sign pinned beside the cedar mailbox"
+                aria-label="Sign: Letters may arrive late"
+              >
+                <span class="sign-star-pin">⭐</span>
+                <span class="sign-wood-text">Letters may arrive late.<br>The moon has terrible scheduling.</span>
+              </div>
+
+              <!-- Whimsical Detail: Flower growing beside the mailbox -->
+              <div
+                class="mailbox-wildflower shrine-mailbox-flower"
+                id="mailbox-wildflower"
+                role="button"
+                tabindex="0"
+                title="A delicate bluebell growing through the moss beside the mailbox"
+                aria-label="Flower growing beside the mailbox"
+              >
+                <span class="wildflower-stem">🌱</span>
+                <span class="wildflower-bloom">🪻</span>
+                <span class="wildflower-dewdrop">💧</span>
+              </div>
+
+              <div class="mailbox-crest" id="mailbox-crest" title="The enchanted postal crest">📮</div>
+              <h3 class="mailbox-shrine-title">The Grand Mossy Mailbox</h3>
+              <p class="mailbox-shrine-desc">
+                Receiving strange mail from around the world, carried by starlight, night-hawks, and tides.
+              </p>
+
+              <!-- In-World "You have mail" Notification Notice -->
+              <div class="mailbox-inworld-notice" id="mailbox-inworld-notice" role="status">
+                <span class="notice-icon">📬</span>
+                <div class="notice-content">
+                  <strong class="notice-title">You have mail.</strong>
+                  <span class="notice-subtitle" id="mailbox-notice-subtext">A letter slipped through the midnight slot</span>
+                </div>
+              </div>
+
+              <!-- Sensory line for rare events -->
+              <div class="mailbox-sensory-status" id="mailbox-sensory-status">
+                <span id="mailbox-sensory-text">🌙 The brass feels cool under starlight.</span>
+              </div>
+
+              <!-- Interactive brass slot -->
+              <div
+                class="mailbox-slot-interactive"
+                id="interactive-mailbox-slot"
+                role="button"
+                tabindex="0"
+                title="Tap the postal slot to listen to the letters within"
+              >
+                <span class="slot-brass-plate">POST LETTERS HERE</span>
+                <div class="slot-envelope-anim-marker" id="slot-envelope-anim-marker"></div>
+              </div>
+
+              <!-- Action Toolbar -->
+              <div class="mailbox-actions-bar">
+                <button
+                  class="btn-unexpected-letter"
+                  id="btn-mailbox-unexpected"
+                  type="button"
+                  title="Unfold a surprise letter from the world"
+                >
+                  <span class="btn-icon">✨</span>
+                  <span class="btn-label">Give me something unexpected</span>
+                </button>
+
+                <button
+                  class="btn-mailbox-write"
+                  id="btn-mailbox-write"
+                  type="button"
+                  title="Write a letter at the cozy midnight desk"
+                >
+                  <span class="btn-icon">🖋️</span>
+                  <span class="btn-label">Write a Letter</span>
+                </button>
+              </div>
+
+              <!-- Mailbox Shrine Statistics -->
+              <div class="mailbox-stats-row">
+                <div class="stat-item">
+                  <span class="stat-num" id="stat-incoming-count">18</span>
+                  <span class="stat-tag">Letters for You</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-num" id="stat-letters-count">1</span>
+                  <span class="stat-tag">My Sent Letters</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-num" id="stat-temperature-label">Cool</span>
+                  <span class="stat-tag">Brass Temperature</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mailbox Two-Section Tabs -->
+            <div class="mailbox-tabs-nav" role="tablist">
+              <button
+                class="mailbox-tab-btn active"
+                id="tab-btn-letters-for-you"
+                type="button"
+                role="tab"
+                aria-selected="true"
+              >
+                <span>📬 Letters for You</span>
+                <span class="tab-count-pill" id="badge-for-you-count">18</span>
+              </button>
+
+              <button
+                class="mailbox-tab-btn"
+                id="tab-btn-my-letters"
+                type="button"
+                role="tab"
+                aria-selected="false"
+              >
+                <span>💌 My Letters</span>
+                <span class="tab-count-pill" id="badge-my-letters-count">1</span>
+              </button>
+            </div>
+
+            <!-- Section 1: LETTERS FOR YOU -->
+            <div class="mailbox-section active" id="section-letters-for-you">
+              <div class="mailbox-section-intro">
+                <p>
+                  Letters slipped through the cedar slots by nocturnal wanderers, creatures of the hedge, and distant stars.
+                </p>
+              </div>
+
+              <div class="letters-for-you-grid" id="letters-for-you-grid">
+                <!-- Populated dynamically by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Section 2: MY LETTERS -->
+            <div class="mailbox-section" id="section-my-letters" style="display: none;">
+              <div class="mailbox-section-intro">
+                <p>
+                  Envelopes you folded at the midnight desk, sealed in warm wax, and entrusted to the starlit sky.
+                </p>
+              </div>
+
+              <div class="my-letters-grid" id="my-letters-grid">
+                <!-- Populated dynamically by JavaScript from localStorage -->
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 8: RECIPIENTS PIGEONHOLES                             -->
+          <!-- ============================================================= -->
+          <div class="recipients-stage" id="stage-recipients" style="display: none;">
+            <div class="stage-intro-banner">
+              <h2>Known Enchanted Addresses</h2>
+              <p>Where letters go when addressed to things beyond the hedge</p>
+            </div>
+            <div class="recipients-grid" id="recipients-list-grid">
+              <!-- Rendered by JavaScript from recipients.json -->
+            </div>
+          </div>
+
+          <!-- ============================================================= -->
+          <!-- STATION 9: ARCHIVE SHELVES (MY LETTERS)                       -->
+          <!-- ============================================================= -->
+          <div class="archive-stage" id="stage-archive" style="display: none;">
+            <div class="stage-intro-banner">
+              <h2>The Archive of Shelved Envelopes</h2>
+              <p>Letters resting in cedar cubbies, tied with velvet ribbons</p>
+            </div>
+            <div class="archive-letters-grid" id="archive-letters-grid">
+              <!-- Rendered by JavaScript from localStorage & letters.json -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL 1: BOOK INSPECTION MODAL                                      -->
+    <!-- =================================================================== -->
+    <div
+      class="fairy-modal-overlay"
+      id="book-inspection-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Book Inspection"
+    >
+      <div class="modal-custom-sheet">
+        <button class="modal-close-btn modal-dismiss-btn" type="button" aria-label="Return to the room">✕</button>
+        <h3 id="modal-book-title" style="font-family: var(--font-serif); font-size: 1.6rem; color: #433128;">
+          The Cartography of Forgotten Dreams
+        </h3>
+        <p id="modal-book-author" style="font-size: 0.85rem; color: #876f5f; margin-bottom: 12px;">
+          By M. Vance
+        </p>
+        <p id="modal-book-desc" style="font-size: 0.95rem; line-height: 1.5; color: #3b2820; margin-bottom: 14px;">
+          Description
+        </p>
+
+        <div style="background: #fdfaf3; border: 1px solid #d5c3ab; border-radius: 8px; padding: 14px; margin-bottom: 12px;">
+          <span style="font-size: 0.78rem; text-transform: uppercase; color: #8c7365; display: block; margin-bottom: 4px;">Memorable Line:</span>
+          <p id="modal-book-line" style="font-family: var(--font-hand); font-size: 1.3rem; color: #2e1d18;">
+            Line
+          </p>
+        </div>
+
+        <div class="modal-book-notes-box">
+          <strong>The Moon's Pencil Note:</strong> <span id="modal-book-notes">Notes</span>
+        </div>
+
+        <!-- Secret Clue Scrap (Appears inside book 1) -->
+        <div class="modal-secret-clue-box" id="modal-book-clue" style="display: none;">
+          <!-- Populated by JS -->
+        </div>
+
+        <div style="text-align: right; margin-top: 18px;">
+          <button class="journal-nav-btn modal-dismiss-btn" type="button">Return to the room</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL 2: DREAM JAR MODAL                                            -->
+    <!-- =================================================================== -->
+    <div
+      class="fairy-modal-overlay"
+      id="dream-jar-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Dream Whisper"
+    >
+      <div class="modal-custom-sheet" style="text-align: center;">
+        <button class="modal-close-btn modal-dismiss-btn" type="button" aria-label="Return to the room">✕</button>
+        <div class="modal-dream-orb-display">
+          <div class="modal-dream-orb" id="modal-dream-glow-orb"></div>
+        </div>
+        <h3 id="modal-dream-title" style="font-family: var(--font-serif); font-size: 1.5rem; color: #433128;">
+          Dream Title
+        </h3>
+        <p id="modal-dream-whisper" style="font-family: var(--font-hand); font-size: 1.45rem; color: #2e1d18; margin: 14px 0;">
+          “Whisper”
+        </p>
+        <p id="modal-dream-detail" style="font-size: 0.95rem; line-height: 1.5; color: #4e382d; margin-bottom: 14px;">
+          Detail
+        </p>
+        <p id="modal-dream-origin" style="font-size: 0.8rem; color: #876f5f; font-style: italic;">
+          Origin
+        </p>
+        <p id="modal-dream-scent" style="font-size: 0.8rem; color: #9c6c42; margin-top: 4px;">
+          Scent
+        </p>
+
+        <div style="margin-top: 20px;">
+          <button class="journal-nav-btn modal-dismiss-btn" type="button">Return to the room</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL 3: PHOTO MEMORY MODAL                                         -->
+    <!-- =================================================================== -->
+    <div
+      class="fairy-modal-overlay"
+      id="photo-memory-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Framed Memory"
+    >
+      <div class="modal-custom-sheet" style="text-align: center;">
+        <button class="modal-close-btn modal-dismiss-btn" type="button" aria-label="Return to the room">✕</button>
+        <div style="font-size: 44px; margin-bottom: 8px;" id="modal-photo-symbol">🌍</div>
+        <span id="modal-photo-badge" style="font-size: 0.78rem; text-transform: uppercase; background: #ecdcc8; padding: 3px 10px; border-radius: 10px; color: #5f4438;">
+          Memory
+        </span>
+        <h3 id="modal-photo-title" style="font-family: var(--font-serif); font-size: 1.45rem; color: #433128; margin-top: 8px;">
+          Earthrise (1968)
+        </h3>
+        <p id="modal-photo-desc" style="font-family: var(--font-hand); font-size: 1.35rem; line-height: 1.55; color: #3b2820; margin: 16px 0;">
+          Memory description
+        </p>
+
+        <!-- Back of the photo frame easter egg -->
+        <div style="margin-top: 10px; margin-bottom: 16px;">
+          <button
+            class="fairy-btn-subtle"
+            id="btn-inspect-frame-back"
+            type="button"
+            style="font-size: 0.8rem; padding: 4px 12px;"
+          >
+            ↪ Turn frame over to inspect the backing
+          </button>
+          <div
+            id="modal-photo-back-note"
+            style="display: none; margin-top: 10px; padding: 10px 14px; background: #fffbf4; border: 1px dashed #c4b09b; border-radius: 6px; font-family: var(--font-hand); font-size: 1.25rem; color: #4a362c; text-align: left;"
+          >
+            <!-- Populated by JS with handwritten note on back of frame -->
+          </div>
+        </div>
+
+        <div>
+          <button class="journal-nav-btn modal-dismiss-btn" type="button">Return to the room</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL 4: THE UNLOCKED DRAWER MODAL (47 YEARS OF MEMORY)             -->
+    <!-- =================================================================== -->
+    <div
+      class="fairy-modal-overlay"
+      id="unlocked-drawer-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Unlocked Drawer"
+    >
+      <div class="modal-custom-sheet">
+        <button class="modal-close-btn modal-dismiss-btn" type="button" aria-label="Return to the room">✕</button>
+        <div style="display: flex; align-items: center; gap: 10px; border-bottom: 1px dashed #d5c3ab; padding-bottom: 8px; margin-bottom: 14px;">
+          <span style="font-size: 26px;">🗝️</span>
+          <div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: #433128;">
+              The Drawer Opened After 47 Years
+            </h3>
+            <span style="font-size: 0.78rem; color: #876f5f;">Tucked beneath cedar and starlight felt</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 14px; margin-bottom: 16px;">
+          <div style="font-size: 36px; padding: 8px; background: #faede0; border-radius: 8px; text-align: center;">
+            🌱
+          </div>
+          <div>
+            <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: #4a3429;">
+              A Pressed Blue Gentian Flower
+            </h4>
+            <p style="font-size: 0.85rem; color: #5a4439; line-height: 1.4;">
+              Carried from Devon by an Apollo astronaut in 1969. The petals are as blue as morning seawater.
+            </p>
+          </div>
+        </div>
+
+        <div style="background: #fffbf4; border: 1px solid #d5c3ab; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+          <span style="font-size: 0.78rem; text-transform: uppercase; color: #8c7365;">Her Unsent Letter to the Astronaut:</span>
+          <p style="font-family: var(--font-hand); font-size: 1.25rem; line-height: 1.6; color: #2e1d18; margin-top: 6px;">
+            “You left a footprint in my gray dust, and because there is no wind here, it will stay for a million years.<br><br>
+            You were shaking inside your heavy helmet. I could hear your heart beating through your boots against the basalt. You were so small, like a seed blown across a great abyss.<br><br>
+            I kept your footprint safe. I always will.”
+          </p>
+        </div>
+
+        <div style="text-align: right;">
+          <button class="journal-nav-btn modal-dismiss-btn" type="button">Return to the room</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL 5: POST OFFICE BOOK ("Things You've Noticed")                 -->
+    <!-- =================================================================== -->
+    <div
+      class="fairy-modal-overlay"
+      id="discovery-notes-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Things You've Noticed"
+    >
+      <div class="modal-custom-sheet" style="max-height: 85vh; overflow-y: auto;">
+        <button class="modal-close-btn" id="modal-close-discoveries" type="button" aria-label="Return to the room">✕</button>
+        <div style="text-align: center; margin-bottom: 16px;">
+          <span style="font-size: 28px;">📜</span>
+          <h3 style="font-family: var(--font-serif); font-size: 1.5rem; color: #433128;">
+            Things You&apos;ve Noticed • The Visitor&apos;s Book
+          </h3>
+          <p style="font-size: 0.82rem; color: #8c7365; max-width: 480px; margin: 4px auto 0;">
+            A quiet, handmade ledger remembering the curiosities, forgotten signs, and little secrets you found while walking through the Fairy Post Office.
+          </p>
+        </div>
+
+        <div id="discovery-log-sections">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Discreet Reset Option -->
+        <div class="book-forget-section" id="book-forget-section">
+          <div class="forget-intro-row">
+            <button
+              class="btn-quiet-forget"
+              id="btn-quiet-forget"
+              type="button"
+              title="Discreetly clear saved letters and discoveries"
+            >
+              Quietly forget everything...
+            </button>
+          </div>
+          <div class="forget-confirm-box" id="forget-confirm-box" style="display: none;">
+            <p class="forget-confirm-text">
+              Are you sure you wish to quietly forget everything? Your saved letters, whispers, and discovered secrets will be erased from this browser, so you may stumble upon the Fairy Post Office as a stranger once more.
+            </p>
+            <div class="forget-btn-row">
+              <button class="btn-forget-confirm" id="btn-forget-confirm-yes" type="button">
+                Yes, forget everything
+              </button>
+              <button class="btn-forget-cancel" id="btn-forget-confirm-cancel" type="button">
+                Keep my memories
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 18px;">
+          <button class="journal-nav-btn modal-dismiss-btn" type="button">Return to the room</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- MODAL 6: LETTER READING PARCHMENT                                   -->
+    <!-- =================================================================== -->
+    <div
+      class="fairy-modal-overlay"
+      id="fairy-letter-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Read Letter"
+    >
+      <div class="modal-parchment-sheet" id="modal-parchment-sheet">
+        <button
+          class="modal-close-btn modal-dismiss-btn"
+          id="modal-close-btn"
+          type="button"
+          aria-label="Return to the room"
+        >
+          ✕
+        </button>
+
+        <div class="modal-letter-header-decor">
+          <span id="modal-letter-stamp" class="modal-stamp-symbol">🌙</span>
+          <span id="modal-letter-tone-pill" class="modal-tone-pill">Comforting</span>
+          <span id="modal-letter-decoration-emblem" class="modal-decor-symbol">✦</span>
+        </div>
+
+        <div class="modal-letter-titles-block">
+          <h3 id="modal-letter-recipient">To: Earth</h3>
+          <p id="modal-letter-date">Apogee • 384,400 km away</p>
+        </div>
+
+        <div
+          class="modal-letter-content"
+          id="modal-letter-content"
+        ></div>
+
+        <!-- Easter Egg: Second reading secret postscript -->
+        <div
+          class="modal-second-reading-postscript"
+          id="modal-second-reading-postscript"
+          style="display: none;"
+        >
+          <!-- Populated by JS when a letter is re-read -->
+        </div>
+
+        <div class="modal-letter-signoff-row">
+          <span id="modal-letter-sender">From: Luna</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fairy Flyby Animation Container for Rare Events -->
+    <div class="fairy-flyby-container" id="fairy-flyby-container" aria-hidden="true"></div>
+
+    <!-- Gentle Toast Notification -->
+    <div class="fairy-toast" id="fairy-toast" role="status">
+      <span>✉️</span>
+      <span id="fairy-toast-msg">Your letter has been safely delivered.</span>
+    </div>
+
+    <!-- Application Script -->
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
